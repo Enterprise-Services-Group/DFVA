@@ -107,6 +107,32 @@ const PROGRAMS: ProgramReport[] = [
     marketSlug: "dfva-market-b-sci",
     recommendSlug: "dfva-recommend-b-sci",
   },
+  {
+    program: "Master of Biotechnology",
+    institution: "University of Melbourne",
+    level: "Master · 2 years",
+    date: "2026-05-13",
+    score: 24,
+    maxScore: 36,
+    riskBand: "MODERATE RISK",
+    thresholds: { q1: "NO", q2: "YES", q3: "YES" },
+    dimensions: [
+      { label: "Automation Exposure", score: 2, max: 3 },
+      { label: "Systems Thinking", score: 2, max: 3 },
+      { label: "Technical Depth", score: 2, max: 3 },
+      { label: "Decision-Making", score: 3, max: 3 },
+      { label: "AI Literacy", score: 1, max: 3 },
+      { label: "Domain Depth", score: 3, max: 3 },
+      { label: "Research Rigour", score: 2, max: 3 },
+      { label: "Human & Relational", score: 3, max: 3 },
+      { label: "Curriculum Currency", score: 2, max: 3 },
+      { label: "Outcome Evidence", score: 1, max: 3 },
+      { label: "Irreplaceability (bonus)", score: 3, max: 3 },
+    ],
+    assessmentSlug: "dfva-mc-scibit",
+    marketSlug: "dfva-market-mc-scibit",
+    recommendSlug: "dfva-recommend-mc-scibit",
+  },
 ];
 
 const riskBandConfig: Record<

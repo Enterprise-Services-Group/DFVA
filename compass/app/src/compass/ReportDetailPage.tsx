@@ -27,6 +27,9 @@ const reportMeta: Record<
   "dfva-b-sci": { score: "23 / 36", riskBand: "MODERATE RISK" },
   "dfva-market-b-sci": { score: null, riskBand: null },
   "dfva-recommend-b-sci": { score: null, riskBand: null },
+  "dfva-mc-scibit": { score: "24 / 36", riskBand: "MODERATE RISK" },
+  "dfva-market-mc-scibit": { score: null, riskBand: null },
+  "dfva-recommend-mc-scibit": { score: null, riskBand: null },
 };
 
 const NAV_TABS = [
