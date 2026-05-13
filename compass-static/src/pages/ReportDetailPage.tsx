@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, BarChart2, ClipboardList, TrendingUp } from 'lucide-react'
 import { REPORT_CONTENT } from '../data/reportContent'
 
 const riskBandStyles: Record<string, string> = {
@@ -14,6 +14,24 @@ const riskBandStyles: Record<string, string> = {
 const reportMeta: Record<string, { score: string | null; riskBand: string | null }> = {
   'dfva-b-des': { score: '17 / 36', riskBand: 'HIGH RISK' },
   'dfva-market-b-des': { score: null, riskBand: null },
+  'dfva-mc-is': { score: '18 / 36', riskBand: 'HIGH RISK' },
+  'dfva-market-mc-is': { score: null, riskBand: null },
+  'dfva-recommend-mc-is': { score: null, riskBand: null },
+  'dfva-b-sci': { score: '23 / 36', riskBand: 'MODERATE RISK' },
+  'dfva-market-b-sci': { score: null, riskBand: null },
+  'dfva-recommend-b-sci': { score: null, riskBand: null },
+}
+
+const NAV_TABS = [
+  { type: 'assessment' as const, label: 'Assessment', icon: BarChart2 },
+  { type: 'market' as const, label: 'Market Intelligence', icon: TrendingUp },
+  { type: 'recommend' as const, label: 'Improvement Plan', icon: ClipboardList },
+]
+
+function parseSlug(slug: string): { code: string; type: 'assessment' | 'market' | 'recommend' } {
+  if (slug.startsWith('dfva-recommend-')) return { code: slug.slice('dfva-recommend-'.length), type: 'recommend' }
+  if (slug.startsWith('dfva-market-')) return { code: slug.slice('dfva-market-'.length), type: 'market' }
+  return { code: slug.slice('dfva-'.length), type: 'assessment' }
 }
 
 export default function ReportDetailPage() {
@@ -39,6 +57,12 @@ export default function ReportDetailPage() {
   }
 
   const meta = reportSlug ? reportMeta[reportSlug] : null
+  const { code, type: currentType } = parseSlug(reportSlug!)
+  const slugsByType = {
+    assessment: 'dfva-' + code,
+    market: 'dfva-market-' + code,
+    recommend: 'dfva-recommend-' + code,
+  }
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
@@ -67,6 +91,30 @@ export default function ReportDetailPage() {
               )}
             </div>
           )}
+        </div>
+
+        {/* Report family navigation */}
+        <div className="mt-5 flex flex-wrap items-center gap-2">
+          {NAV_TABS.map(tab => {
+            const slug = slugsByType[tab.type]
+            if (!(slug in REPORT_CONTENT)) return null
+            const isActive = tab.type === currentType
+            return (
+              <Link
+                key={tab.type}
+                to={'/reports/' + slug}
+                className={[
+                  'inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-medium transition-colors',
+                  isActive
+                    ? 'border-primary bg-primary text-primary-foreground'
+                    : 'border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground',
+                ].join(' ')}
+              >
+                <tab.icon className="h-3.5 w-3.5" />
+                {tab.label}
+              </Link>
+            )
+          })}
         </div>
       </div>
 
