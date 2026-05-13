@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
-import { ArrowRight, BarChart2, TrendingUp } from 'lucide-react'
+import { ArrowRight, BarChart2, ClipboardList, TrendingUp } from 'lucide-react'
 
 interface DimensionScore {
   label: string
@@ -20,6 +20,7 @@ interface ProgramReport {
   dimensions: DimensionScore[]
   assessmentSlug: string
   marketSlug: string
+  recommendSlug?: string
 }
 
 const PROGRAMS: ProgramReport[] = [
@@ -47,6 +48,59 @@ const PROGRAMS: ProgramReport[] = [
     ],
     assessmentSlug: 'dfva-b-des',
     marketSlug: 'dfva-market-b-des',
+    recommendSlug: undefined,
+  },
+  {
+    program: 'Master of Information Systems',
+    institution: 'University of Melbourne',
+    level: 'Master · 1.5–2 years',
+    date: '2026-05-07',
+    score: 18,
+    maxScore: 36,
+    riskBand: 'HIGH RISK',
+    thresholds: { q1: 'YES', q2: 'UNCERTAIN', q3: 'NO' },
+    dimensions: [
+      { label: 'Automation Exposure', score: 1, max: 3 },
+      { label: 'Systems Thinking', score: 2, max: 3 },
+      { label: 'Technical Depth', score: 2, max: 3 },
+      { label: 'Decision-Making', score: 2, max: 3 },
+      { label: 'AI Literacy', score: 1, max: 3 },
+      { label: 'Domain Depth', score: 2, max: 3 },
+      { label: 'Research Rigour', score: 2, max: 3 },
+      { label: 'Human & Relational', score: 2, max: 3 },
+      { label: 'Curriculum Currency', score: 2, max: 3 },
+      { label: 'Outcome Evidence', score: 1, max: 3 },
+      { label: 'Irreplaceability (bonus)', score: 1, max: 3 },
+    ],
+    assessmentSlug: 'dfva-mc-is',
+    marketSlug: 'dfva-market-mc-is',
+    recommendSlug: 'dfva-recommend-mc-is',
+  },
+  {
+    program: 'Bachelor of Science',
+    institution: 'University of Melbourne',
+    level: 'Bachelor · 3 years',
+    date: '2026-05-13',
+    score: 23,
+    maxScore: 36,
+    riskBand: 'MODERATE RISK',
+    thresholds: { q1: 'UNCERTAIN', q2: 'YES', q3: 'UNCERTAIN' },
+    dimensions: [
+      { label: 'Automation Exposure', score: 2, max: 3 },
+      { label: 'Systems Thinking', score: 2, max: 3 },
+      { label: 'Technical Depth', score: 3, max: 3 },
+      { label: 'Decision-Making', score: 2, max: 3 },
+      { label: 'AI Literacy', score: 1, max: 3 },
+      { label: 'Domain Depth', score: 3, max: 3 },
+      { label: 'Research Rigour', score: 3, max: 3 },
+      { label: 'Human & Relational', score: 1, max: 3 },
+      { label: 'Curriculum Currency', score: 2, max: 3 },
+      { label: 'Outcome Evidence', score: 2, max: 3 },
+      { label: 'Irreplaceability (bonus)', score: 2, max: 3 },
+    ],
+    assessmentSlug: 'dfva-b-sci',
+    marketSlug: 'dfva-market-b-sci',
+    recommendSlug: 'dfva-recommend-b-sci',
   },
 ]
 
@@ -219,7 +273,7 @@ export default function ReportsPage() {
 
                 {/* Report links */}
                 <div
-                  className={`mt-6 grid grid-cols-2 divide-x overflow-hidden rounded-lg border ${cfg.border}`}
+                  className={`mt-6 grid divide-x overflow-hidden rounded-lg border ${cfg.border} ${p.recommendSlug ? 'grid-cols-3' : 'grid-cols-2'}`}
                 >
                   <Link
                     to={`/reports/${p.assessmentSlug}`}
@@ -237,6 +291,16 @@ export default function ReportsPage() {
                     <span>Market Intelligence</span>
                     <ArrowRight className="ml-auto h-3.5 w-3.5 shrink-0" />
                   </Link>
+                  {p.recommendSlug && (
+                    <Link
+                      to={`/reports/${p.recommendSlug}`}
+                      className={`flex items-center gap-2 px-4 py-3 text-sm font-medium ${cfg.text} transition-colors hover:${cfg.bg}`}
+                    >
+                      <ClipboardList className="h-4 w-4 shrink-0" />
+                      <span>Improvement Plan</span>
+                      <ArrowRight className="ml-auto h-3.5 w-3.5 shrink-0" />
+                    </Link>
+                  )}
                 </div>
               </CardContent>
             </Card>

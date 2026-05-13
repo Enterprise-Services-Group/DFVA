@@ -228,6 +228,35 @@ The following is an abbreviated example of a COMPASS assessment run against the 
 
 ---
 
+## Appendix: Full Three-Report Workflow — Master of Information Systems (MC-IS), University of Melbourne
+
+The following demonstrates the complete COMPASS workflow: viability assessment, market intelligence scan, and curriculum improvement plan — applied to the UniMelb Master of Information Systems. All three reports were produced in a single session, illustrating the speed and evidence quality the tool delivers compared to a traditional curriculum advisory process.
+
+**DFVA Viability Assessment** ([reports/dfva-mc-is.md](reports/dfva-mc-is.md))
+- **Score:** 18/36
+- **Risk band:** HIGH RISK
+- **Q1** (AI can produce 80% of first-2-year output?): **YES**
+- **Q2** (Trains graduates to design systems, own decisions?): **UNCERTAIN**
+- **Q3** (Graduates more employable in 5 years?): **NO**
+- **Critical gaps:** D1 Automation Exposure (1/3), D5 AI Literacy and Governance (1/3), D10 Graduate Outcome Evidence (1/3)
+- **Verdict:** The program anchors early-career outcomes in human middleware tasks — documentation, requirements analysis, coordination, and reporting — that are the current front line of AI-driven role compression. Enroll with a clear upskilling plan, not as a standalone credential.
+
+**Market Intelligence Scan** ([reports/dfva-market-mc-is.md](reports/dfva-market-mc-is.md))
+- 8 job families profiled across years 1–5 post-graduation
+- Entry-level BA, IT analyst, and reporting analyst ANZ postings down 18–22% YoY
+- "Automation Analyst" postings up 47% YoY; "AI Governance Analyst" appearing as new ANZ title category
+- Key skill shifts: manual documentation and JIRA administration declining fast; AI governance frameworks (ISO 42001, NIST AI RMF) and data engineering rising very fast
+
+**Curriculum Improvement Plan** ([reports/dfva-recommend-mc-is.md](reports/dfva-recommend-mc-is.md))
+- 8 prioritized interventions with owner, timeline, and measurable KPI
+- 12-month implementation roadmap (foundation → design sprint → build → pre-launch)
+- 24-month capability roadmap: projected score lift from 18/36 (HIGH RISK) to 28–30/36 (RESILIENT)
+- Assessment redesign examples: Systems Analysis and Design, IT Project Management, Capstone (all tracks)
+- Projected score at Month 12: 23–24/36 (MODERATE RISK)
+- Projected score at Month 24: 28–30/36 (RESILIENT)
+
+---
+
 *This proposal was developed using the COMPASS analytical framework as a structuring lens — a demonstration that its evidence-based approach to problem definition can be applied beyond curriculum assessment to any structured innovation challenge.*
 
 ---
