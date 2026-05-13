@@ -48,7 +48,7 @@ const PROGRAMS: ProgramReport[] = [
     ],
     assessmentSlug: 'dfva-b-des',
     marketSlug: 'dfva-market-b-des',
-    recommendSlug: undefined,
+    recommendSlug: 'dfva-recommend-b-des',
   },
   {
     program: 'Master of Information Systems',
