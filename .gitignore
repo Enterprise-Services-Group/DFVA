@@ -1,0 +1,27 @@
+# Templates — local only, not for version control
+templates/
+
+# Dependencies
+node_modules/
+compass/app/node_modules/
+compass/blog/node_modules/
+compass/e2e-tests/node_modules/
+
+# Build outputs (compass-static dist is committed for Pages deployment)
+compass/app/.wasp/
+compass/blog/dist/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+compass/app/.env
+compass/app/.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+*.swp
