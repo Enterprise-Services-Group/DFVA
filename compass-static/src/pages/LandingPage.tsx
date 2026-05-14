@@ -163,21 +163,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonial */}
-      <section className="border-t border-border bg-muted/30 px-6 py-24 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
-          <blockquote className="text-xl font-medium leading-relaxed text-foreground">
-            "For the first time we have a structured, evidence-based way to answer the question
-            curriculum committees keep avoiding: will this graduate still be employable in five
-            years, and what do we need to change to make sure they are?"
-          </blockquote>
-          <p className="mt-6 text-sm text-muted-foreground">
-            <span className="font-semibold text-foreground">David Mulholland</span> ·{' '}
-            Associate Director, Service Experience & Design, University of Melbourne
-          </p>
-        </div>
-      </section>
-
       {/* FAQs */}
       <section className="border-t border-border px-6 py-24 lg:px-8">
         <div className="mx-auto max-w-3xl">
