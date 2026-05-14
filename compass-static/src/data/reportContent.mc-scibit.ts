@@ -237,7 +237,7 @@ Seek ANZ new title appearances (Q4 2025\u2013Q1 2026): "AI Validation Scientist"
     institution: "University of Melbourne",
     markdown: `## DFVA CURRICULUM IMPROVEMENT PLAN: Master of Biotechnology
 
-**Based on report:** Master of Biotechnology, University of Melbourne \u2014 24/36 MODERATE RISK \u2014 2026-05-13 / https://handbook.unimelb.edu.au/2026/courses/mc-scibit
+
 **Assessment date:** 2026-05-13 | **Prompt version:** DFVA-COPILOT-RECOMMENDER-v1
 
 ---

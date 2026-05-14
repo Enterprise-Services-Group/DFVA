@@ -93,8 +93,8 @@ export default function ReportDetailPage() {
       {/* Visualization banner — assessment tab only */}
       {currentType === 'assessment' && program && cfg && coreDims.length > 0 && (
         <div
-          className="mt-6 grid grid-cols-1 gap-6 overflow-hidden rounded-xl border p-6 sm:grid-cols-[auto_1fr]"
-          style={{ borderColor: cfg.color + '40', background: cfg.track + 'cc' }}
+          className="mt-6 grid grid-cols-1 gap-6 overflow-hidden rounded-xl border border-border bg-card p-6 sm:grid-cols-[auto_1fr]"
+          style={{}}
         >
           <DimensionRadar dimensions={coreDims} band={program.riskBand} size={220} />
           <div className="flex flex-col justify-center">

@@ -239,7 +239,6 @@ The viable 2027 MIS graduate is not an information broker — they are an **AI w
     institution: "University of Melbourne",
     markdown: `## DFVA CURRICULUM IMPROVEMENT PLAN: Master of Information Systems (MC-IS)
 
-**Based on report:** MC-IS DFVA Assessment / 2026-05-07 / https://handbook.unimelb.edu.au/2026/courses/mc-is/
 **Assessment date:** 2026-05-07
 **Prompt version:** DFVA-COPILOT-RECOMMENDER-v1
 
@@ -518,7 +517,6 @@ Seek ANZ new title appearances (Q4 2025\u2013Q1 2026): AI Research Scientist (Li
     institution: "University of Melbourne",
     markdown: `## DFVA CURRICULUM IMPROVEMENT PLAN: Bachelor of Science (B-Sci)
 
-**Based on report:** B-Sci DFVA Assessment / 2026-05-13 / https://handbook.unimelb.edu.au/2026/courses/b-sci
 **Assessment date:** 2026-05-13
 **Prompt version:** DFVA-COPILOT-RECOMMENDER-v1
 
@@ -607,28 +605,26 @@ The 2027-ready B-Sci graduate did not coast through a broad science degree hopin
     institution: "University of Melbourne",
     markdown: `## DFVA CURRICULUM IMPROVEMENT PLAN: Bachelor of Design
 
-**Based on report:** Bachelor of Design, University of Melbourne — 21/36 MODERATE RISK — 2026-05-13 / https://handbook.unimelb.edu.au/2026/courses/b-des
-
 ### 1. DIAGNOSTIC SUMMARY
 
-The Bachelor of Design scored **21/36 — MODERATE RISK**. Three critical 1/3 scores define the primary intervention targets.
+The Bachelor of Design scored **17/36 — HIGH RISK**. Five critical 1/3 scores define the primary intervention targets.
 
 | Dimension | Score | Status |
 |---|---|---|
-| D1 — Automation Exposure | 2/3 | Adequate |
+| D1 — Automation Exposure | 1/3 | Critical gap |
 | D2 — Systems Thinking | 2/3 | Adequate |
 | D3 — Technical Depth | 1/3 | Critical gap |
 | D4 — Decision-Making | 2/3 | Adequate |
 | D5 — AI Literacy | 1/3 | Critical gap |
 | D6 — Domain Depth | 2/3 | Adequate |
-| D7 — Research Methods | 2/3 | Adequate |
-| D8 — Human/Relational | 3/3 | Strong |
+| D7 — Research Methods | 1/3 | Critical gap |
+| D8 — Human/Relational | 2/3 | Adequate |
 | D9 — Curriculum Currency | 2/3 | Adequate |
 | D10 — Graduate Outcome Evidence | 1/3 | Critical gap |
 | B — Irreplaceability Premium | 2/3 | Adequate |
-| **TOTAL** | **21/36** | **MODERATE RISK** |
+| **TOTAL** | **17/36** | **HIGH RISK** |
 
-The B-Des has a genuine human-relational strength (D8: 3/3). Studio culture, critique practice, and embodied making are not easily replicated by AI. Three 1/3 scores represent the degree’s primary intervention targets: technical depth, AI literacy and governance, and graduate outcome evidence.
+Five 1/3 scores represent the degree's primary intervention targets: automation exposure, technical depth, AI literacy and governance, research methods, and graduate outcome evidence.
 
 ### 2. SCORE-TO-ACTION MAPPING
 
@@ -676,9 +672,9 @@ The B-Des has a genuine human-relational strength (D8: 3/3). Studio culture, cri
 
 ### 6. 24-MONTH CAPABILITY ROADMAP
 
-**Months 1–12 — Structural Fix (target: 24–25/36 MODERATE RISK upper band):** Close three critical 1/3 scores. AI in Design Practice live (D5: 1→3). Specialisation destination data published (D10: 1→2). Design and Technology Integration in approval pipeline (D3: 1→2 target). Quantitative research module integrated (D7: partial).
+**Months 1–12 — Structural Fix (target: 22–24/36 MODERATE RISK):** Close five critical 1/3 scores. AI in Design Practice live (D5: 1→3). Specialisation destination data published (D10: 1→2). Design and Technology Integration in approval pipeline (D3: 1→2 target). Quantitative research module integrated (D7: 1→2). Automation exposure addressed via assessment redesign (D1: 1→2).
 
-**Months 13–18 — Depth and Differentiation (target: 28–30/36 RESILIENT):** Design and Technology Integration live Sem 2 2027 (D3: 1→3). Live-client capstone mandate implemented (D4: 2→3, D1: 2→3). Interaction Design specialisation strengthened (D6: 2→3). Advisory panel completing first full cycle (D9: 2→3).
+**Months 13–18 — Depth and Differentiation (target: 28–30/36 RESILIENT):** Design and Technology Integration live Sem 2 2027 (D3: 2→3). Live-client capstone mandate implemented (D4: 2→3, D1: 2→3). Interaction Design specialisation strengthened (D6: 2→3). Advisory panel completing first full cycle (D9: 2→3).
 
 **Months 19–24 — Evidence and Signal (target: 31–33/36 RESILIENT strong band):** Second destination cohort report: role-title shift toward AI-direction and strategy roles measurable (D10: 2→3). Graduation portfolio first full cohort (B: 2→3). External validation: AI in Design Practice mapped against Creative Australia AI ethics framework and AGDA professional standards.
 
@@ -733,7 +729,7 @@ Their capstone was a live project with a real government or industry client. The
 They are the graduate that a design strategy team, a service design consultancy, or an AI product company hires because they can do something that AI cannot: sit in a room with a human being, understand what that person actually needs, make a judgment call about what matters, and then direct the tools — AI and human — to get there.
 
 ---
-**Assessment Date:** 2026-05-13 | **Source Report Reference:** DFVA Report: Bachelor of Design, University of Melbourne — 21/36 MODERATE RISK | **Prompt Version:** DFVA-COPILOT-RECOMMENDER-v1
+**Assessment Date:** 2026-04-21 | **Source Report Reference:** DFVA Report: Bachelor of Design, University of Melbourne — 17/36 HIGH RISK | **Prompt Version:** DFVA-COPILOT-RECOMMENDER-v1
 `,
   },
 

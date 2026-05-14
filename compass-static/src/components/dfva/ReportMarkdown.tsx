@@ -19,10 +19,11 @@ function childText(node: ReactNode): string {
 // ─── risk badges ──────────────────────────────────────────────────────────────
 
 const RISK_BADGE_CFG: Record<string, { color: string; bg: string }> = {
-  HIGH:         { color: '#dc2626', bg: '#fef2f2' },
-  MEDIUM:       { color: '#d97706', bg: '#fffbeb' },
-  LOW:          { color: '#16a34a', bg: '#f0fdf4' },
-  'LOW–MEDIUM': { color: '#d97706', bg: '#fffbeb' },
+  HIGH:            { color: '#dc2626', bg: '#fef2f2' },
+  MEDIUM:          { color: '#d97706', bg: '#fffbeb' },
+  LOW:             { color: '#16a34a', bg: '#f0fdf4' },
+  'LOW–MEDIUM':    { color: '#d97706', bg: '#fffbeb' },
+  'MEDIUM–HIGH':   { color: '#ea580c', bg: '#fff7ed' },
 }
 
 function normaliseRisk(raw: string): string {
@@ -42,7 +43,7 @@ function RiskBadge({ token }: { token: string }) {
 }
 
 function splitRisk(text: string): [string, string] | null {
-  const m = text.match(/^(LOW[–\-]MEDIUM|HIGH|MEDIUM|LOW)\s*([—–\-(].*)$/i)
+  const m = text.match(/^(LOW[–\-]MEDIUM|HIGH|MEDIUM|LOW)\s*([—–(].*)$/i)
   if (!m) return null
   return [normaliseRisk(m[1]), m[2].trimStart()]
 }
@@ -70,13 +71,16 @@ function ScoreDots({ score }: { score: number }) {
 // ─── direction cell ───────────────────────────────────────────────────────────
 
 function DirectionCell({ text }: { text: string }) {
-  const t = text.trim()
-  if (t === 'Up')
-    return <span className="inline-flex items-center gap-1 text-xs font-medium" style={{ color: '#16a34a' }}><TrendingUp className="h-3.5 w-3.5" />Up</span>
-  if (t === 'Down')
-    return <span className="inline-flex items-center gap-1 text-xs font-medium" style={{ color: '#dc2626' }}><TrendingDown className="h-3.5 w-3.5" />Down</span>
-  if (t === 'Emerging')
-    return <span className="inline-flex items-center gap-1 text-xs font-medium" style={{ color: '#d97706' }}><Sparkles className="h-3.5 w-3.5" />Emerging</span>
+  const m = text.trim().match(/^(Up|Down|Emerging)(?:\s*(\([^)]+\)))?$/i)
+  if (!m) return null
+  const dir = m[1]
+  const sub = m[2]
+  if (/^up$/i.test(dir))
+    return <span className="inline-flex flex-wrap items-center gap-1 text-xs font-medium" style={{ color: '#16a34a' }}><TrendingUp className="h-3.5 w-3.5" />Up{sub && <span className="font-normal text-muted-foreground">{sub}</span>}</span>
+  if (/^down$/i.test(dir))
+    return <span className="inline-flex flex-wrap items-center gap-1 text-xs font-medium" style={{ color: '#dc2626' }}><TrendingDown className="h-3.5 w-3.5" />Down{sub && <span className="font-normal text-muted-foreground">{sub}</span>}</span>
+  if (/^emerging$/i.test(dir))
+    return <span className="inline-flex flex-wrap items-center gap-1 text-xs font-medium" style={{ color: '#d97706' }}><Sparkles className="h-3.5 w-3.5" />Emerging{sub && <span className="font-normal text-muted-foreground">{sub}</span>}</span>
   return null
 }
 
@@ -174,19 +178,113 @@ function ScoreSummaryBar({ children }: { children: ReactNode }) {
   )
 }
 
+// ─── structured paragraph card ────────────────────────────────────────────────
+// Detects dense "Title: intro. Section: a; b; c. Dimensions: D4, D5." paragraphs
+
+const SECTION_BOUNDARY_RE = /\.\s+[A-Z][A-Za-z0-9 ()%]+:\s/
+
+function parseBodySections(body: string): { intro: string; sections: Array<{ label: string; content: string }> } {
+  const parts = body.split(/(?<=\.)\s+(?=[A-Z][^:]+:\s)/)
+  const isLabel = (s: string) => /^[A-Z][^:]+:\s/.test(s)
+
+  let intro = ''
+  let startIdx = 0
+  if (!isLabel(parts[0])) {
+    intro = parts[0].replace(/\.$/, '').trim()
+    startIdx = 1
+  }
+
+  const sections: Array<{ label: string; content: string }> = []
+  for (let i = startIdx; i < parts.length; i++) {
+    const colonIdx = parts[i].indexOf(': ')
+    if (colonIdx > 0) {
+      sections.push({ label: parts[i].slice(0, colonIdx).trim(), content: parts[i].slice(colonIdx + 2).replace(/\.$/, '').trim() })
+    }
+  }
+  return { intro, sections }
+}
+
+function DimCircles({ content }: { content: string }) {
+  const tokens = content.split(/[,\s]+/).map(t => t.trim().replace(/^D/, '')).filter(Boolean)
+  return (
+    <div className="flex flex-wrap gap-1">
+      {tokens.map((t) => (
+        <span key={t} className="inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-foreground/10 px-1 text-[10px] font-bold tabular-nums text-foreground">
+          {t}
+        </span>
+      ))}
+    </div>
+  )
+}
+
+function SectionItems({ content }: { content: string }) {
+  if (content.includes(';')) {
+    return (
+      <ul className="space-y-1">
+        {content.split(/;\s*/).filter(Boolean).map((item, i) => (
+          <li key={i} className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
+            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/40" />
+            {item}
+          </li>
+        ))}
+      </ul>
+    )
+  }
+  return <p className="text-xs leading-relaxed text-muted-foreground">{content}</p>
+}
+
+function StructuredCard({ title, body }: { title: string; body: string }) {
+  const { intro, sections } = parseBodySections(body)
+  return (
+    <div className="mb-4 overflow-hidden rounded-lg border border-border bg-card shadow-sm">
+      <div className="border-b border-border bg-muted/50 px-4 py-2.5">
+        <span className="text-[11px] font-semibold uppercase tracking-widest text-foreground">{title.replace(/:$/, '')}</span>
+      </div>
+      <div className="space-y-3 px-4 py-3">
+        {intro && <SectionItems content={intro} />}
+        {sections.map(({ label, content }) => (
+          <div key={label}>
+            <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/70">{label}</p>
+            {/^dimensions$/i.test(label) ? <DimCircles content={content} /> : <SectionItems content={content} />}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // ─── roadmap timeline card ────────────────────────────────────────────────────
 
 const ROADMAP_RE = /^(?:Month|Months)\s+([\d–\-]+)\s+[—–\-]+\s+([^:]+):\s*(.*)/s
 
 function RoadmapCard({ range, phase, body }: { range: string; phase: string; body: string }) {
-  const items = body.split(/\s*·\s*/).map(s => s.trim()).filter(Boolean)
+  // Extract target parenthetical from body if present, display separately
+  let target: string | null = null
+  let cleanBody = body
+  const targetMatch = body.match(/^\(target:\s*([^)]+)\)\s*[:.]?\s*/)
+  if (targetMatch) {
+    target = targetMatch[1].trim()
+    cleanBody = body.slice(targetMatch[0].length)
+  }
+
+  const items = cleanBody
+    .split(/\s*·\s*|(?<=\.)\s+(?=[A-Z])/)
+    .map(s => s.trim().replace(/\.$/, ''))
+    .filter(Boolean)
   return (
     <div className="mb-4 overflow-hidden rounded-lg border border-border bg-card shadow-sm">
-      <div className="flex items-center gap-2.5 border-b border-border bg-muted/50 px-4 py-2.5">
-        <span className="rounded-full bg-foreground px-2.5 py-0.5 text-[10px] font-bold tabular-nums text-background">
-          {range}
-        </span>
-        <span className="text-xs font-semibold uppercase tracking-widest text-foreground">{phase}</span>
+      <div className="border-b border-border bg-muted/50 px-4 py-2.5">
+        <div className="flex items-center gap-2.5">
+          <span className="rounded-full bg-foreground px-2.5 py-0.5 text-[10px] font-bold tabular-nums text-background">
+            {range}
+          </span>
+          <span className="text-xs font-semibold uppercase tracking-widest text-foreground">{phase}</span>
+        </div>
+        {target && (
+          <p className="mt-1.5 text-[10px] text-muted-foreground">
+            Projected score after this phase: <span className="font-semibold">{colourBand(target)}</span>
+          </p>
+        )}
       </div>
       <ul className="space-y-1.5 px-4 py-3">
         {items.map((item, i) => (
@@ -246,8 +344,8 @@ function SmartCell({ children, textAlign }: { children: ReactNode; textAlign?: s
     )
   }
 
-  // Direction indicators (Market Intel table) — regex pre-check, not JSX truthiness
-  if (/^(Up|Down|Emerging)$/.test(text)) {
+  // Direction indicators — matches Up/Down/Emerging with optional (suffix)
+  if (/^(Up|Down|Emerging)(\s*\([^)]+\))?$/i.test(text)) {
     return <td className="px-3 py-2.5"><DirectionCell text={text} /></td>
   }
 
@@ -256,8 +354,8 @@ function SmartCell({ children, textAlign }: { children: ReactNode; textAlign?: s
     return <td className="px-3 py-2.5"><StatusChip text={text} /></td>
   }
 
-  // Standalone risk level (entire cell is just HIGH / MEDIUM / LOW)
-  if (/^(LOW[–\-]MEDIUM|HIGH|MEDIUM|LOW)$/i.test(text)) {
+  // Standalone risk level (entire cell is just HIGH / MEDIUM / LOW / compound)
+  if (/^(LOW[–\-]MEDIUM|MEDIUM[–\-]HIGH|HIGH|MEDIUM|LOW)$/i.test(text)) {
     return <td className="px-3 py-2.5"><RiskBadge token={normaliseRisk(text)} /></td>
   }
 
@@ -296,13 +394,32 @@ function SmartCell({ children, textAlign }: { children: ReactNode; textAlign?: s
     )
   }
 
-  // Left-aligned single digit (# columns) → numbered circle
-  if (!isRightAligned && /^[1-9]$/.test(text)) {
+  // Left-aligned row index (# columns) → numbered circle — handles 1-10 and B (bonus)
+  if (!isRightAligned && /^([1-9]|10|B)$/.test(text)) {
     return (
       <td className="w-8 px-3 py-2.5 text-center">
         <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-foreground/10 text-[10px] font-bold tabular-nums text-foreground">
           {text}
         </span>
+      </td>
+    )
+  }
+
+  // Comma-separated dimension numbers (e.g. "5, 1" or "4, 8, 10") → row of circles
+  if (/^([1-9]|10|B)(,\s*([1-9]|10|B))*$/.test(text)) {
+    const nums = text.split(/,\s*/)
+    return (
+      <td className="px-3 py-2.5">
+        <div className="flex flex-wrap gap-1">
+          {nums.map((n) => (
+            <span
+              key={n}
+              className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-foreground/10 text-[10px] font-bold tabular-nums text-foreground"
+            >
+              {n}
+            </span>
+          ))}
+        </div>
       </td>
     )
   }
@@ -395,7 +512,15 @@ const components: Components = {
       )
     }
 
-    return <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{children}</p>
+    // Dense "Title: intro. Section: items; items. Dimensions: D4, D5." paragraph
+    if (SECTION_BOUNDARY_RE.test(text)) {
+      const firstColon = text.indexOf(': ')
+      if (firstColon > 0 && firstColon < 100) {
+        return <StructuredCard title={text.slice(0, firstColon)} body={text.slice(firstColon + 2)} />
+      }
+    }
+
+    return <p className="my-3 text-[13px] leading-relaxed text-muted-foreground">{children}</p>
   },
 
   ul: ({ children }) => <ul className="mb-3 list-none space-y-2.5 pl-0">{children}</ul>,
@@ -439,7 +564,7 @@ interface ReportMarkdownProps {
 
 export function ReportMarkdown({ markdown }: ReportMarkdownProps) {
   return (
-    <div className="space-y-0">
+    <div>
       <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
         {markdown}
       </ReactMarkdown>

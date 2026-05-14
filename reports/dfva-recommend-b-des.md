@@ -1,12 +1,12 @@
 # DFVA CURRICULUM IMPROVEMENT PLAN: Bachelor of Design
 
-**Based on report:** Bachelor of Design, University of Melbourne — 21/36 MODERATE RISK — 2026-05-13 / https://handbook.unimelb.edu.au/2026/courses/b-des
+**Based on report:** Bachelor of Design, University of Melbourne — 17/36 HIGH RISK — 2026-05-13 / https://handbook.unimelb.edu.au/2026/courses/b-des
 
 ---
 
 ## 1. DIAGNOSTIC SUMMARY
 
-The Bachelor of Design scored **21/36 — MODERATE RISK**. Three critical 1/3 scores define the primary intervention targets.
+The Bachelor of Design scored **17/36 — HIGH RISK**. Three critical 1/3 scores define the primary intervention targets.
 
 | Dimension | Score | Status |
 |---|---|---|
@@ -198,5 +198,5 @@ They are the graduate that a design strategy team, a service design consultancy,
 ---
 
 **Assessment Date:** 2026-05-13
-**Source Report Reference:** DFVA Report: Bachelor of Design, University of Melbourne — 21/36 MODERATE RISK — 2026-05-13 / https://handbook.unimelb.edu.au/2026/courses/b-des
+**Source Report Reference:** DFVA Report: Bachelor of Design, University of Melbourne — 17/36 HIGH RISK — 2026-05-13 / https://handbook.unimelb.edu.au/2026/courses/b-des
 **Prompt Version:** DFVA-COPILOT-RECOMMENDER-v1
