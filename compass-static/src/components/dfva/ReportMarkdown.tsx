@@ -209,7 +209,7 @@ function SectionHeader({ children }: { children: ReactNode }) {
   const m = text.match(NUMBERED_H3)
   const [num, label] = m ? [m[1], m[2]] : [null, text]
   return (
-    <div className="mb-4 mt-10 flex items-center gap-3 border-t border-border/80 pt-6 first:mt-0 first:border-t-0 first:pt-0">
+    <div className="mb-1.5 mt-14 flex items-center gap-3 border-t border-border/60 pt-8 first:mt-0 first:border-t-0 first:pt-0">
       {num && (
         <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-foreground text-[10px] font-bold tabular-nums text-background">
           {num}
@@ -325,7 +325,7 @@ const components: Components = {
 
   blockquote: ({ children }) => (
     <div
-      className="my-4 rounded-r-lg border-l-4 px-4 py-3 text-xs leading-relaxed text-muted-foreground"
+      className="mb-4 mt-2.5 rounded-r-lg border-l-4 px-4 py-3 text-xs leading-relaxed text-muted-foreground"
       style={{ borderColor: '#d97706', background: '#fffbeb' }}
     >
       {children}
@@ -334,7 +334,7 @@ const components: Components = {
 
   // Table wrapper — elevated card with refined borders
   table: ({ children }) => (
-    <div className="my-5 overflow-x-auto rounded-lg border border-border/80 shadow-sm">
+    <div className="mb-5 mt-3 overflow-x-auto rounded-lg border border-border/80 shadow-sm">
       <table className="w-full text-xs [&_thead]:border-b [&_thead]:border-border [&_thead]:bg-muted/50 [&_tbody_tr]:border-b [&_tbody_tr]:border-border/40 [&_tbody_tr:last-child]:border-0 [&_tbody_tr:hover]:bg-muted/30 [&_tbody_tr]:transition-colors">
         {children}
       </table>
@@ -377,7 +377,7 @@ const components: Components = {
       const cfg = RISK_CONFIG[band]
       return (
         <div
-          className="my-5 rounded-lg border-l-4 px-5 py-4 shadow-sm"
+          className="mb-5 mt-3 rounded-lg border-l-4 px-5 py-4 shadow-sm"
           style={{ borderColor: cfg.color, background: cfg.track }}
         >
           <p className="text-sm leading-relaxed text-foreground/90">{children}</p>
@@ -385,13 +385,13 @@ const components: Components = {
       )
     }
 
-    return <p className="my-3 text-[13px] leading-relaxed text-muted-foreground">{children}</p>
+    return <p className="mb-3 mt-2 text-[13px] leading-relaxed text-muted-foreground">{children}</p>
   },
 
-  ul: ({ children }) => <ul className="my-3 list-none space-y-2.5 pl-0">{children}</ul>,
+  ul: ({ children }) => <ul className="mb-3.5 mt-2 list-none space-y-2.5 pl-0">{children}</ul>,
 
   ol: ({ children }) => (
-    <ol className="my-3 list-decimal space-y-1.5 pl-5 text-[13px] leading-relaxed text-muted-foreground">
+    <ol className="mb-3.5 mt-2 list-decimal space-y-1.5 pl-5 text-[13px] leading-relaxed text-muted-foreground">
       {children}
     </ol>
   ),
