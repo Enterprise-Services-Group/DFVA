@@ -52,7 +52,7 @@ The MC-IS scored **18/36 — HIGH RISK**. One point below the MODERATE RISK thre
 | Job Family | Recent Hiring Signal | X Discussion Theme | Curriculum Impact |
 |---|---|---|---|
 | Business Analyst / Systems Analyst | ANZ BA postings down 18–22% YoY; new ads require "automation candidate identification" | "Is the BA role dead?" — survivors moved to governance before automation hit | Exit BA pipeline as primary career destination; pivot to AI workflow governance |
-| IT Project Manager | Entry PM postings down 14% YoY; PMI: 68% of PMOs using AI for status reporting | "If your job is managing Confluence you're a prompt away from elimination" | Deprioritize sprint coordination; strengthen AI-assisted delivery governance |
+| IT Project Manager | Entry PM postings down 14% YoY; PMI: 68% of PMOs using AI for status reporting | "If your job is managing Confluence you're a prompt away from elimination" | Deprioritise sprint coordination; strengthen AI-assisted delivery governance |
 | Enterprise Architect | Gartner: EA growing 9% CAGR but entry requires cloud + AI platform fluency | "EA was declining; AI complexity brought it back" | Strengthen EA elective; add AI system integration and vendor lock-in content |
 | Data Analyst / BI Analyst | LinkedIn: Analytics Engineer up 31% YoY; Reporting Analyst down 22% | "Learn to build the data product, not just consume the report" | Add data engineering elective; move beyond BI tool consumption |
 | AI Product Owner / Automation Analyst | Seek: Automation Analyst postings up 47% YoY; AI Governance Analyst — 34 new ANZ postings Q4 2025 | "AI governance is the new BA" | Primary target role for redesigned MC-IS — build full curriculum spine toward it |
@@ -62,7 +62,7 @@ The MC-IS scored **18/36 — HIGH RISK**. One point below the MODERATE RISK thre
 
 ---
 
-## 4. PRIORITIZED INTERVENTIONS TABLE
+## 4. PRIORITISED INTERVENTIONS TABLE
 
 | Priority | Action | Target Dimension(s) | Market Signal Link | Impact | Effort | Owner | Timeline | KPI |
 |---|---|---|---|---|---|---|---|---|

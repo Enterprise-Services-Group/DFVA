@@ -51,7 +51,7 @@ The MC-SCIBIT scored **24/36 — MODERATE RISK (upper band)**. This is the highe
 
 ---
 
-## 4. PRIORITIZED INTERVENTIONS TABLE
+## 4. PRIORITISED INTERVENTIONS TABLE
 
 | Priority | Action | Target Dimensions | Market Signal Link | Impact | Effort | Owner | Timeline | KPI |
 |---|---|---|---|---|---|---|---|---|

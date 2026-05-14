@@ -17,7 +17,7 @@ Follow this workflow exactly:
 6. Compute total /36 and map to risk band.
 7. Answer threshold questions as YES, NO, or UNCERTAIN with rationale.
 8. Provide a direct verdict for 2027 viability.
-9. Provide prioritized recommendations and a redesigned graduate profile.
+9. Provide prioritised recommendations and a redesigned graduate profile.
 
 Scoring model:
 

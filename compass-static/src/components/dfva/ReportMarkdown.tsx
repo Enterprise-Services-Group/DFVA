@@ -153,7 +153,7 @@ function ScoreSummaryBar({ children }: { children: ReactNode }) {
   const cfg = band ? RISK_CONFIG[band] : null
   return (
     <div
-      className="my-5 flex flex-wrap items-center gap-4 rounded-lg border px-5 py-4"
+      className="mb-5 flex flex-wrap items-center gap-4 rounded-lg border px-5 py-4"
       style={cfg ? { borderColor: cfg.color + '40', background: cfg.track } : {}}
     >
       {score !== null && max !== null && (
@@ -181,7 +181,7 @@ const ROADMAP_RE = /^(?:Month|Months)\s+([\d–\-]+)\s+[—–\-]+\s+([^:]+):\s*
 function RoadmapCard({ range, phase, body }: { range: string; phase: string; body: string }) {
   const items = body.split(/\s*·\s*/).map(s => s.trim()).filter(Boolean)
   return (
-    <div className="mb-3 overflow-hidden rounded-lg border border-border bg-card shadow-sm">
+    <div className="mb-4 overflow-hidden rounded-lg border border-border bg-card shadow-sm">
       <div className="flex items-center gap-2.5 border-b border-border bg-muted/50 px-4 py-2.5">
         <span className="rounded-full bg-foreground px-2.5 py-0.5 text-[10px] font-bold tabular-nums text-background">
           {range}
@@ -209,7 +209,7 @@ function SectionHeader({ children }: { children: ReactNode }) {
   const m = text.match(NUMBERED_H3)
   const [num, label] = m ? [m[1], m[2]] : [null, text]
   return (
-    <div className="mb-1.5 mt-14 flex items-center gap-3 border-t border-border/60 pt-8 first:mt-0 first:border-t-0 first:pt-0">
+    <div className="mb-4 mt-14 flex items-center gap-3 border-t border-border/60 pt-8 first:mt-0 first:border-t-0 first:pt-0">
       {num && (
         <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-foreground text-[10px] font-bold tabular-nums text-background">
           {num}
@@ -325,7 +325,7 @@ const components: Components = {
 
   blockquote: ({ children }) => (
     <div
-      className="mb-4 mt-2.5 rounded-r-lg border-l-4 px-4 py-3 text-xs leading-relaxed text-muted-foreground"
+      className="mb-4 rounded-r-lg border-l-4 px-4 py-3 text-xs leading-relaxed text-muted-foreground"
       style={{ borderColor: '#d97706', background: '#fffbeb' }}
     >
       {children}
@@ -334,7 +334,7 @@ const components: Components = {
 
   // Table wrapper — elevated card with refined borders
   table: ({ children }) => (
-    <div className="mb-5 mt-2 overflow-x-auto rounded-lg border border-border/80 shadow-sm">
+    <div className="mb-4 mt-1 overflow-x-auto rounded-lg border border-border/80 shadow-sm">
       <table className="w-full text-xs [&_thead]:border-b [&_thead]:border-border [&_thead]:bg-muted/50 [&_tbody_tr]:border-b [&_tbody_tr]:border-border/40 [&_tbody_tr:last-child]:border-0 [&_tbody_tr:hover]:bg-muted/30 [&_tbody_tr]:transition-colors">
         {children}
       </table>
@@ -369,7 +369,17 @@ const components: Components = {
     if (SCORE_SUMMARY_RE.test(text)) return <ScoreSummaryBar>{children}</ScoreSummaryBar>
 
     const rm = text.match(ROADMAP_RE)
-    if (rm) return <RoadmapCard range={`Month ${rm[1]}`} phase={rm[2].trim()} body={rm[3]} />
+    if (rm) {
+      let phase = rm[2].trim()
+      let body = rm[3]
+      // If phase contains a broken parenthetical (split at first colon), reassemble it into body
+      const parenIdx = phase.indexOf('(')
+      if (parenIdx > 0) {
+        body = phase.slice(parenIdx) + ': ' + body
+        phase = phase.slice(0, parenIdx).trim()
+      }
+      return <RoadmapCard range={`Month ${rm[1]}`} phase={phase} body={body} />
+    }
 
     if (text.length > 80 && BAND_PATTERN.test(text)) {
       const m = text.match(BAND_PATTERN)!
@@ -377,7 +387,7 @@ const components: Components = {
       const cfg = RISK_CONFIG[band]
       return (
         <div
-          className="mb-5 mt-3 rounded-lg border-l-4 px-5 py-4 shadow-sm"
+          className="mb-5 rounded-lg border-l-4 px-5 py-4 shadow-sm"
           style={{ borderColor: cfg.color, background: cfg.track }}
         >
           <p className="text-sm leading-relaxed text-foreground/90">{children}</p>
@@ -385,13 +395,13 @@ const components: Components = {
       )
     }
 
-    return <p className="mb-3 mt-2 text-[13px] leading-relaxed text-muted-foreground">{children}</p>
+    return <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{children}</p>
   },
 
-  ul: ({ children }) => <ul className="mb-3.5 mt-2 list-none space-y-2.5 pl-0">{children}</ul>,
+  ul: ({ children }) => <ul className="mb-3 list-none space-y-2.5 pl-0">{children}</ul>,
 
   ol: ({ children }) => (
-    <ol className="mb-3.5 mt-2 list-decimal space-y-1.5 pl-5 text-[13px] leading-relaxed text-muted-foreground">
+    <ol className="mb-3 list-decimal space-y-1.5 pl-5 text-[13px] leading-relaxed text-muted-foreground">
       {children}
     </ol>
   ),

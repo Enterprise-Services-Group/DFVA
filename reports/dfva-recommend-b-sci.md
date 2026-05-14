@@ -69,7 +69,7 @@ The two 1/3 scores define the primary intervention targets:
 
 ---
 
-## 4. PRIORITIZED INTERVENTIONS TABLE
+## 4. PRIORITISED INTERVENTIONS TABLE
 
 | Priority | Action | Target Dimension(s) | Market Signal Link | Impact | Effort | Owner | Timeline | KPI |
 |---|---|---|---|---|---|---|---|---|

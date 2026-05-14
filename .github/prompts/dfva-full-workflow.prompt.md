@@ -72,7 +72,7 @@ Convert the assessment and market evidence into an implementation-ready improvem
 1. DIAGNOSTIC SUMMARY (score table for all 11 dimensions)
 2. SCORE-TO-ACTION MAPPING (table: Dimension / DFVA Score / Gap Diagnosis / Recommended Intervention)
 3. MARKET EVIDENCE SNAPSHOT (table: Job Family / Recent Hiring Signal / X Discussion Theme / Curriculum Impact)
-4. PRIORITIZED INTERVENTIONS TABLE (table: Priority / Action / Target Dimensions / Market Signal Link / Impact / Effort / Owner / Timeline / KPI)
+4. PRIORITISED INTERVENTIONS TABLE (table: Priority / Action / Target Dimensions / Market Signal Link / Impact / Effort / Owner / Timeline / KPI)
 5. 12-MONTH IMPLEMENTATION ROADMAP (plain text phases — do NOT use fenced code blocks)
 6. 24-MONTH CAPABILITY ROADMAP (plain text phases with score trajectory — do NOT use fenced code blocks)
 7. ASSESSMENT REDESIGN EXAMPLES (2–3 specific unit redesigns)

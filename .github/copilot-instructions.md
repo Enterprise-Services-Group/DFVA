@@ -22,7 +22,7 @@ When the user provides a program name, curriculum, or URL, you must:
 4. Compute total score and map to risk band.
 5. Answer the three threshold questions with YES, NO, or UNCERTAIN and rationale.
 6. Produce a direct verdict focused on 2027 viability.
-7. Provide a prioritized recommendations table.
+7. Provide a prioritised recommendations table.
 8. Provide the analogue graduate profile (which AI tools threaten entry-level work).
 
 ## DFVA Rubric (0-3)

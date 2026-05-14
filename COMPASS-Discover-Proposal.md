@@ -248,7 +248,7 @@ The following demonstrates the complete COMPASS workflow: viability assessment, 
 - Key skill shifts: manual documentation and JIRA administration declining fast; AI governance frameworks (ISO 42001, NIST AI RMF) and data engineering rising very fast
 
 **Curriculum Improvement Plan** ([reports/dfva-recommend-mc-is.md](reports/dfva-recommend-mc-is.md))
-- 8 prioritized interventions with owner, timeline, and measurable KPI
+- 8 prioritised interventions with owner, timeline, and measurable KPI
 - 12-month implementation roadmap (foundation → design sprint → build → pre-launch)
 - 24-month capability roadmap: projected score lift from 18/36 (HIGH RISK) to 28–30/36 (RESILIENT)
 - Assessment redesign examples: Systems Analysis and Design, IT Project Management, Capstone (all tracks)

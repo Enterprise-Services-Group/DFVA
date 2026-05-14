@@ -63,7 +63,7 @@ The B-Des has a genuine human-relational strength (D8: 3/3). Studio culture, cri
 
 ---
 
-## 4. PRIORITIZED INTERVENTIONS TABLE
+## 4. PRIORITISED INTERVENTIONS TABLE
 
 | Priority | Action | Target Dimension(s) | Market Signal Link | Impact | Effort | Owner | Timeline | KPI |
 |---|---|---|---|---|---|---|---|---|

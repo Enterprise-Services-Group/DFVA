@@ -102,7 +102,7 @@ Prompt version: DFVA-COPILOT-RECOMMENDER-v1
 1. DIAGNOSTIC SUMMARY — score table for all 11 dimensions with status (Strong / Adequate / Critical gap)
 2. SCORE-TO-ACTION MAPPING — table: Dimension / DFVA Score / Gap Diagnosis / Recommended Intervention
 3. MARKET EVIDENCE SNAPSHOT — table: Job Family / Recent Hiring Signal / X Discussion Theme / Curriculum Impact
-4. PRIORITIZED INTERVENTIONS TABLE — minimum 6 rows; columns: Priority / Action / Target Dimensions / Market Signal Link / Impact / Effort / Owner / Timeline / KPI
+4. PRIORITISED INTERVENTIONS TABLE — minimum 6 rows; columns: Priority / Action / Target Dimensions / Market Signal Link / Impact / Effort / Owner / Timeline / KPI
 5. 12-MONTH IMPLEMENTATION ROADMAP — plain bold-text phases (NOT fenced code blocks)
 6. 24-MONTH CAPABILITY ROADMAP — plain bold-text phases with score trajectory (NOT fenced code blocks)
 7. ASSESSMENT REDESIGN EXAMPLES — 2–3 specific unit redesigns showing current vs. redesigned assessment

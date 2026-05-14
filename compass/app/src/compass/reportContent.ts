@@ -201,7 +201,7 @@ The viable 2027 MIS graduate is not an information broker — they are an **AI w
 | Theme | Observed Direction | Curriculum Relevance |
 |---|---|---|
 | "Is the BA role dead?" — active professional discourse | Strong and persistent | Reinforces need to pivot program career framing away from BA pipeline |
-| JIRA/Confluence AI absorbing coordination tasks | Increasing | Deprioritize sprint coordination; strengthen AI-assisted delivery governance |
+| JIRA/Confluence AI absorbing coordination tasks | Increasing | Deprioritise sprint coordination; strengthen AI-assisted delivery governance |
 | "AI governance is the new BA" — IS practitioners reframing toward ISO 42001 and NIST AI RMF | Growing | Supports mandatory AI governance pillar as core curriculum requirement |
 | EA revival driven by AI complexity: "EA was declining; AI brought it back" | Increasing | Strengthen enterprise architecture elective; add AI system integration content |
 | Big 4 graduate cohorts noting AI fluency expected at intake | Persistent | AI literacy must be a graduation requirement, not a nice-to-have |
@@ -273,7 +273,7 @@ The MC-IS scored **18/36 — HIGH RISK**. One point below the MODERATE RISK thre
 | D9 — Curriculum Currency | 2/3 | No AI core units visible in 2026 handbook | Establish employer advisory panel with annual curriculum signal review |
 | B — Irreplaceability Premium | 1/3 | Business/technology bridging value is common and undifferentiated | Build rare integration: AI governance + sector depth + data engineering |
 
-### 3. PRIORITIZED INTERVENTIONS TABLE
+### 3. PRIORITISED INTERVENTIONS TABLE
 | Priority | Action | Target Dimensions | Market Signal Link | Impact | Effort | Owner | Timeline | KPI |
 |---|---|---|---|---|---|---|---|---|
 | 1 | Create mandatory core unit: AI Governance and Deployment (NIST AI RMF, ISO 42001, human-in-the-loop design) | D5, D1, B | ISACA: AI governance #1 GRC skill; ISO 42001 tripling; Big 4 intake expectations shifted | HIGH | HIGH | Program Director + School of CIS | Months 1–9 design; Sem 1 2027 delivery | Unit live Sem 1 2027; 80%+ student competency on governance frameworks |
@@ -552,7 +552,7 @@ The B-Sci scored **23/36 \u2014 MODERATE RISK**. Three strong scores (D3, D6, D7
 | D9 \u2014 Curriculum Currency | 2/3 | No degree-level AI governance content visible despite recent review. | Establish science curriculum advisory panel with annual review cycle and documented change tracking. |
 | D10 \u2014 Graduate Outcome Evidence | 2/3 | Faculty-level data only; major-level granularity unavailable. | Publish major-level graduate destination data: role titles, salary bands, postgraduate study rates within 12 months. |
 
-### 3. PRIORITIZED INTERVENTIONS TABLE
+### 3. PRIORITISED INTERVENTIONS TABLE
 | Priority | Action | Target Dimensions | Market Signal Link | Impact | Effort | Owner | Timeline | KPI |
 |---|---|---|---|---|---|---|---|---|
 | 1 | Create mandatory core unit: AI in Scientific Research (tool evaluation, model limitation analysis, research integrity, NIST AI RMF applied to research) | D5, D9, B | Seek ANZ: AI tool literacy in 34% of science-adjacent postings (up from 11% in 2024); CSIRO and APS science roles requiring ability to evaluate AI model outputs | HIGH | HIGH | Faculty of Science Dean of Teaching + School of CIS (co-design) | Months 1\u20139 design; Sem 1 2027 delivery | Unit live Sem 1 2027; 100% enrollment; 80%+ student proficiency on AI tool evaluation |
@@ -651,7 +651,7 @@ The B-Des has a genuine human-relational strength (D8: 3/3). Studio culture, cri
 | Design Researcher | CSIRO, tech sector: growing demand for mixed-methods design research; salary premium for researchers bridging qual and quant | “The best design researchers tell you where the AI user research tool is wrong” | Quantitative research methods addition directly addresses |
 | AI Product Designer | Seek ANZ: “AI Product Designer” — 23 new ANZ postings Q4 2025; all requiring LLM workflow design, human-AI teaming frameworks | “This is the new junior design role — but you need to understand how the model works to do it well” | AI in Design Practice unit is the direct curriculum response |
 
-### 4. PRIORITIZED INTERVENTIONS TABLE
+### 4. PRIORITISED INTERVENTIONS TABLE
 
 | Priority | Action | Target Dimensions | Market Signal Link | Impact | Effort | Owner | Timeline | KPI |
 |---|---|---|---|---|---|---|---|---|

@@ -19,7 +19,7 @@ Execution rules:
 6. Compute total out of 36 and map to risk band.
 7. Answer threshold questions with YES, NO, or UNCERTAIN and rationale.
 8. Produce a direct verdict on 2027 viability.
-9. Provide prioritized recommendations and a redesigned graduate profile.
+9. Provide prioritised recommendations and a redesigned graduate profile.
 
 Output contract (required order):
 

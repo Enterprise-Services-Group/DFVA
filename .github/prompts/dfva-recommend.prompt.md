@@ -19,7 +19,7 @@ Execution rules:
 2. Parse and list the score for all 10 dimensions and bonus.
 3. Identify the lowest-scoring dimensions and prioritize interventions against those first.
 4. Every recommendation must map to one or more specific DFVA dimensions.
-5. Include at least 5 prioritized actions.
+5. Include at least 5 prioritised actions.
 6. For each action, include impact, effort, owner role, timeline, and measurable KPI.
 7. Include both a 12-month roadmap and a 24-month capability roadmap.
 8. If report information is incomplete, state assumptions explicitly and proceed with best-evidence recommendations.
@@ -35,7 +35,7 @@ Based on report: [Program / date / source]
 1. DIAGNOSTIC SUMMARY
 2. SCORE-TO-ACTION MAPPING
 3. MARKET EVIDENCE SNAPSHOT
-4. PRIORITIZED INTERVENTIONS TABLE
+4. PRIORITISED INTERVENTIONS TABLE
 5. 12-MONTH IMPLEMENTATION ROADMAP
 6. 24-MONTH CAPABILITY ROADMAP
 7. ASSESSMENT REDESIGN EXAMPLES
@@ -58,7 +58,7 @@ Table requirements:
   - X Discussion Theme
   - Curriculum Impact
 
-- PRIORITIZED INTERVENTIONS TABLE columns:
+- PRIORITISED INTERVENTIONS TABLE columns:
   - Priority
   - Action
   - Target Dimension(s)
