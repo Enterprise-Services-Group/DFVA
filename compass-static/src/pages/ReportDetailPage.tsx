@@ -1,10 +1,8 @@
 import { useParams, Link } from 'react-router-dom'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 import { ArrowLeft, BarChart2, ClipboardList, TrendingUp } from 'lucide-react'
 import { REPORT_CONTENT } from '../data/reportContent'
 import { getProgramBySlug } from '../data/programData'
-import { ScoreArc, DimensionRadar, ThresholdPanel, RISK_CONFIG } from '../components/dfva'
+import { ScoreArc, DimensionRadar, ThresholdPanel, RISK_CONFIG, ReportMarkdown } from '../components/dfva'
 
 const NAV_TABS = [
   { type: 'assessment' as const, label: 'Assessment', icon: BarChart2 },
@@ -109,10 +107,8 @@ export default function ReportDetailPage() {
       )}
 
       {/* Markdown content */}
-      <div className="mt-6 rounded-xl border border-border bg-card p-8">
-        <div className="prose prose-sm dark:prose-invert max-w-none prose-table:text-xs prose-th:font-semibold prose-td:align-top">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{report.markdown}</ReactMarkdown>
-        </div>
+      <div className="mt-6 rounded-xl border border-border bg-card p-6">
+        <ReportMarkdown markdown={report.markdown} />
       </div>
     </div>
   )
