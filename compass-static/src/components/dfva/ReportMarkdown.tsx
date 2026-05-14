@@ -33,7 +33,7 @@ function RiskBadge({ token }: { token: string }) {
   const cfg = RISK_BADGE_CFG[token] ?? RISK_BADGE_CFG['MEDIUM']
   return (
     <span
-      className="inline-flex shrink-0 items-center rounded px-1.5 py-0.5 text-[10px] font-bold leading-none"
+      className="inline-flex shrink-0 items-center rounded px-1.5 py-0.5 text-[10px] font-bold leading-none tracking-wide"
       style={{ color: cfg.color, background: cfg.bg }}
     >
       {token}
@@ -59,7 +59,7 @@ function ScoreDots({ score }: { score: number }) {
       {[1, 2, 3].map((i) => (
         <span
           key={i}
-          className="inline-block h-2.5 w-2.5 rounded-sm"
+          className="inline-block h-2 w-2 rounded-full"
           style={{ background: i <= score ? DOT_COLOR[score] : DOT_COLOR[0] }}
         />
       ))}
@@ -88,6 +88,33 @@ function StatusChip({ text }: { text: string }) {
   if (text === 'Adequate')
     return <span className="rounded px-1.5 py-0.5 text-[10px] font-medium" style={{ color: '#6b7280', background: '#f3f4f6' }}>Adequate</span>
   return null
+}
+
+// ─── effort badges ────────────────────────────────────────────────────────────
+
+const EFFORT_CFG: Record<string, { color: string; bg: string }> = {
+  Low:    { color: '#16a34a', bg: '#f0fdf4' },
+  Medium: { color: '#d97706', bg: '#fffbeb' },
+  High:   { color: '#dc2626', bg: '#fef2f2' },
+}
+
+function isEffortText(text: string): boolean {
+  return /^(Low|Medium|High)([–\-]\w+)?$/i.test(text)
+}
+
+function EffortBadge({ text }: { text: string }) {
+  const normalised = text.replace(/[-–—]/, '–').trim()
+  const key = Object.keys(EFFORT_CFG).find(k => normalised.toLowerCase().startsWith(k.toLowerCase()))
+  if (!key) return null
+  const cfg = EFFORT_CFG[key]
+  return (
+    <span
+      className="inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-medium leading-none"
+      style={{ color: cfg.color, background: cfg.bg }}
+    >
+      {normalised}
+    </span>
+  )
 }
 
 // ─── risk-band colouring ──────────────────────────────────────────────────────
@@ -126,8 +153,8 @@ function ScoreSummaryBar({ children }: { children: ReactNode }) {
   const cfg = band ? RISK_CONFIG[band] : null
   return (
     <div
-      className="my-4 flex flex-wrap items-center gap-3 rounded-lg border px-5 py-3"
-      style={cfg ? { borderColor: cfg.color + '50', background: cfg.track } : {}}
+      className="my-5 flex flex-wrap items-center gap-4 rounded-lg border px-5 py-4"
+      style={cfg ? { borderColor: cfg.color + '40', background: cfg.track } : {}}
     >
       {score !== null && max !== null && (
         <span className="tabular-nums">
@@ -137,10 +164,10 @@ function ScoreSummaryBar({ children }: { children: ReactNode }) {
       )}
       {cfg && band && (
         <span
-          className="rounded px-2 py-0.5 text-xs font-bold"
-          style={{ color: cfg.text, background: cfg.color + '22' }}
+          className="rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
+          style={{ color: cfg.text, background: cfg.color + '1a' }}
         >
-          {cfg.label.toUpperCase()}
+          {cfg.label}
         </span>
       )}
     </div>
@@ -154,9 +181,9 @@ const ROADMAP_RE = /^(?:Month|Months)\s+([\d–\-]+)\s+[—–\-]+\s+([^:]+):\s*
 function RoadmapCard({ range, phase, body }: { range: string; phase: string; body: string }) {
   const items = body.split(/\s*·\s*/).map(s => s.trim()).filter(Boolean)
   return (
-    <div className="mb-3 overflow-hidden rounded-lg border border-border bg-card">
-      <div className="flex items-center gap-2.5 border-b border-border bg-muted/40 px-4 py-2.5">
-        <span className="rounded-full bg-foreground px-2.5 py-0.5 text-[10px] font-bold text-background">
+    <div className="mb-3 overflow-hidden rounded-lg border border-border bg-card shadow-sm">
+      <div className="flex items-center gap-2.5 border-b border-border bg-muted/50 px-4 py-2.5">
+        <span className="rounded-full bg-foreground px-2.5 py-0.5 text-[10px] font-bold tabular-nums text-background">
           {range}
         </span>
         <span className="text-xs font-semibold uppercase tracking-widest text-foreground">{phase}</span>
@@ -182,13 +209,13 @@ function SectionHeader({ children }: { children: ReactNode }) {
   const m = text.match(NUMBERED_H3)
   const [num, label] = m ? [m[1], m[2]] : [null, text]
   return (
-    <div className="mb-4 mt-8 flex items-center gap-3 border-t border-border pt-5 [&:first-child]:mt-0 [&:first-child]:border-t-0 [&:first-child]:pt-0">
+    <div className="mb-4 mt-10 flex items-center gap-3 border-t border-border/80 pt-6 first:mt-0 first:border-t-0 first:pt-0">
       {num && (
-        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-foreground text-[10px] font-bold text-background">
+        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-foreground text-[10px] font-bold tabular-nums text-background">
           {num}
         </span>
       )}
-      <h3 className="text-[11px] font-semibold uppercase tracking-widest text-foreground">{label}</h3>
+      <h3 className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground">{label}</h3>
     </div>
   )
 }
@@ -202,7 +229,11 @@ function SmartCell({ children, textAlign }: { children: ReactNode; textAlign?: s
 
   // Right-aligned single digit 0–3 → score dots (score column)
   if (isRightAligned && /^[0-3]$/.test(text)) {
-    return <td className="px-3 py-2.5 text-right">{<ScoreDots score={Number(text)} />}</td>
+    return (
+      <td className="px-3 py-2.5 text-right">
+        <ScoreDots score={Number(text)} />
+      </td>
+    )
   }
 
   // Fraction x/3 → coloured fraction text (Score-to-Action Mapping table)
@@ -215,12 +246,12 @@ function SmartCell({ children, textAlign }: { children: ReactNode; textAlign?: s
     )
   }
 
-  // Direction indicators (Market Intel table)
+  // Direction indicators (Market Intel table) — regex pre-check, not JSX truthiness
   if (/^(Up|Down|Emerging)$/.test(text)) {
     return <td className="px-3 py-2.5"><DirectionCell text={text} /></td>
   }
 
-  // Status chips (Diagnostic Summary table)
+  // Status chips (Diagnostic Summary table) — regex pre-check, not JSX truthiness
   if (text.includes('Critical gap') || text === 'Adequate') {
     return <td className="px-3 py-2.5"><StatusChip text={text} /></td>
   }
@@ -244,11 +275,32 @@ function SmartCell({ children, textAlign }: { children: ReactNode; textAlign?: s
     )
   }
 
-  // Left-aligned single digit (Priority, # columns) → numbered circle
+  // Effort badges (Low, Medium, High)
+  if (isEffortText(text)) {
+    return <td className="px-3 py-2.5"><EffortBadge text={text} /></td>
+  }
+
+  // Priority labels (P1, P2, P3)
+  if (/^P[1-3]$/.test(text)) {
+    const priority = Number(text[1])
+    const pColor = priority === 1 ? '#dc2626' : priority === 2 ? '#d97706' : '#6b7280'
+    return (
+      <td className="w-10 px-3 py-2.5 text-center">
+        <span
+          className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold"
+          style={{ color: pColor, background: pColor + '14' }}
+        >
+          {text}
+        </span>
+      </td>
+    )
+  }
+
+  // Left-aligned single digit (# columns) → numbered circle
   if (!isRightAligned && /^[1-9]$/.test(text)) {
     return (
-      <td className="px-3 py-2.5">
-        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-muted text-[10px] font-bold text-muted-foreground">
+      <td className="w-8 px-3 py-2.5 text-center">
+        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-foreground/10 text-[10px] font-bold tabular-nums text-foreground">
           {text}
         </span>
       </td>
@@ -280,17 +332,17 @@ const components: Components = {
     </div>
   ),
 
-  // Table wrapper — scrollable card; tbody/tr/thead use default react-markdown rendering
+  // Table wrapper — elevated card with refined borders
   table: ({ children }) => (
-    <div className="my-4 overflow-x-auto rounded-lg border border-border">
-      <table className="w-full divide-y divide-border text-xs [&_tbody_tr:hover]:bg-muted/20 [&_tbody_tr]:border-b [&_tbody_tr]:border-border/60 [&_thead]:bg-muted/60">
+    <div className="my-5 overflow-x-auto rounded-lg border border-border/80 shadow-sm">
+      <table className="w-full text-xs [&_thead]:border-b [&_thead]:border-border [&_thead]:bg-muted/50 [&_tbody_tr]:border-b [&_tbody_tr]:border-border/40 [&_tbody_tr:last-child]:border-0 [&_tbody_tr:hover]:bg-muted/30 [&_tbody_tr]:transition-colors">
         {children}
       </table>
     </div>
   ),
 
   th: ({ children }) => (
-    <th className="px-3 py-2 text-left text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+    <th className="px-3 py-2.5 text-left text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/80">
       {children}
     </th>
   ),
@@ -308,7 +360,7 @@ const components: Components = {
       const band = m[1] as keyof typeof RISK_CONFIG
       return <strong style={{ color: RISK_CONFIG[band]?.color }}>{children}</strong>
     }
-    return <strong>{children}</strong>
+    return <strong className="font-semibold text-foreground">{children}</strong>
   },
 
   p: ({ children }) => {
@@ -325,21 +377,21 @@ const components: Components = {
       const cfg = RISK_CONFIG[band]
       return (
         <div
-          className="my-4 rounded-lg border-l-4 px-4 py-3 text-sm leading-relaxed"
+          className="my-5 rounded-lg border-l-4 px-5 py-4 shadow-sm"
           style={{ borderColor: cfg.color, background: cfg.track }}
         >
-          <p className="text-foreground">{children}</p>
+          <p className="text-sm leading-relaxed text-foreground/90">{children}</p>
         </div>
       )
     }
 
-    return <p className="my-3 text-xs leading-relaxed text-muted-foreground">{children}</p>
+    return <p className="my-3 text-[13px] leading-relaxed text-muted-foreground">{children}</p>
   },
 
-  ul: ({ children }) => <ul className="my-3 list-none space-y-2 pl-0">{children}</ul>,
+  ul: ({ children }) => <ul className="my-3 list-none space-y-2.5 pl-0">{children}</ul>,
 
   ol: ({ children }) => (
-    <ol className="my-3 list-decimal space-y-1.5 pl-5 text-xs leading-relaxed text-muted-foreground">
+    <ol className="my-3 list-decimal space-y-1.5 pl-5 text-[13px] leading-relaxed text-muted-foreground">
       {children}
     </ol>
   ),
@@ -350,8 +402,8 @@ const components: Components = {
       return <li className="pl-0.5 leading-relaxed">{children}</li>
     }
     return (
-      <li className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
-        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground/50" />
+      <li className="flex items-start gap-2.5 text-[13px] leading-relaxed text-muted-foreground">
+        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-muted-foreground/50" />
         <span>{children}</span>
       </li>
     )
@@ -362,8 +414,7 @@ const components: Components = {
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="font-medium underline underline-offset-2"
-      style={{ color: '#2563eb' }}
+      className="font-medium text-primary underline decoration-primary/30 underline-offset-2 transition-colors hover:decoration-primary/70"
     >
       {children}
     </a>

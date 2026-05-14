@@ -107,7 +107,7 @@ export default function ReportDetailPage() {
       )}
 
       {/* Markdown content */}
-      <div className="mt-6 rounded-xl border border-border bg-card p-6">
+      <div className="mt-8 rounded-xl border border-border bg-card px-8 py-7">
         <ReportMarkdown markdown={report.markdown} />
       </div>
     </div>
