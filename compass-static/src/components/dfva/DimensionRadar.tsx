@@ -43,10 +43,13 @@ export function DimensionRadar({ dimensions, band, size = 200 }: DimensionRadarP
     .join(' ')
 
   return (
+    // Padding gives overflowing axis labels room; overflow:visible lets SVG paint into it
+    <div style={{ padding: '6px 32px' }}>
     <svg
       width={size}
       height={size}
       viewBox={`0 0 ${size} ${size}`}
+      style={{ overflow: 'visible' }}
       aria-label="Dimension radar chart"
     >
       {[1, 2, 3].map((level) => (
@@ -103,5 +106,6 @@ export function DimensionRadar({ dimensions, band, size = 200 }: DimensionRadarP
         )
       })}
     </svg>
+    </div>
   )
 }
