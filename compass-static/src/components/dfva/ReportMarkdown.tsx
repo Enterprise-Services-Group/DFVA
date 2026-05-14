@@ -3,7 +3,7 @@ import remarkGfm from 'remark-gfm'
 import { TrendingUp, TrendingDown, Sparkles } from 'lucide-react'
 import { RISK_CONFIG } from './ScoreArc'
 import type { Components } from 'react-markdown'
-import type { ReactNode, CSSProperties } from 'react'
+import type { ReactNode } from 'react'
 
 // ─── text extraction ──────────────────────────────────────────────────────────
 
@@ -41,7 +41,6 @@ function RiskBadge({ token }: { token: string }) {
   )
 }
 
-// Detect "HIGH — remainder" or "HIGH (remainder)"
 function splitRisk(text: string): [string, string] | null {
   const m = text.match(/^(LOW[–\-]MEDIUM|HIGH|MEDIUM|LOW)\s*([—–\-(].*)$/i)
   if (!m) return null
@@ -91,7 +90,25 @@ function StatusChip({ text }: { text: string }) {
   return null
 }
 
-// ─── score summary bar (TOTAL: N/36 paragraph) ───────────────────────────────
+// ─── risk-band colouring ──────────────────────────────────────────────────────
+
+const BAND_PATTERN = /\b(HIGH RISK|MODERATE RISK|RESILIENT|CRITICAL)\b/
+
+function colourBand(text: string): ReactNode {
+  const parts = text.split(BAND_PATTERN)
+  if (parts.length === 1) return text
+  return (
+    <>
+      {parts.map((part, i) => {
+        const band = part as keyof typeof RISK_CONFIG
+        if (RISK_CONFIG[band]) return <strong key={i} style={{ color: RISK_CONFIG[band].color }}>{part}</strong>
+        return part
+      })}
+    </>
+  )
+}
+
+// ─── score summary bar ────────────────────────────────────────────────────────
 
 const SCORE_SUMMARY_RE = /TOTAL[:.]?\s*(\d+)\s*[\/\\]\s*(\d+)/i
 const RISK_BAND_LINE_RE = /Risk\s+band[:.]?\s*(.+)/i
@@ -113,10 +130,10 @@ function ScoreSummaryBar({ children }: { children: ReactNode }) {
       style={cfg ? { borderColor: cfg.color + '50', background: cfg.track } : {}}
     >
       {score !== null && max !== null && (
-        <div className="tabular-nums">
+        <span className="tabular-nums">
           <span className="text-2xl font-bold leading-none" style={cfg ? { color: cfg.color } : {}}>{score}</span>
           <span className="text-sm text-muted-foreground"> / {max}</span>
-        </div>
+        </span>
       )}
       {cfg && band && (
         <span
@@ -156,24 +173,6 @@ function RoadmapCard({ range, phase, body }: { range: string; phase: string; bod
   )
 }
 
-// ─── risk-band text colouring ─────────────────────────────────────────────────
-
-const BAND_PATTERN = /\b(HIGH RISK|MODERATE RISK|RESILIENT|CRITICAL)\b/
-
-function colourBand(text: string): ReactNode {
-  const parts = text.split(BAND_PATTERN)
-  if (parts.length === 1) return text
-  return (
-    <>
-      {parts.map((part, i) => {
-        const band = part as keyof typeof RISK_CONFIG
-        if (RISK_CONFIG[band]) return <strong key={i} style={{ color: RISK_CONFIG[band].color }}>{part}</strong>
-        return part
-      })}
-    </>
-  )
-}
-
 // ─── section header ───────────────────────────────────────────────────────────
 
 const NUMBERED_H3 = /^(\d+)\.\s+(.*)/
@@ -183,7 +182,7 @@ function SectionHeader({ children }: { children: ReactNode }) {
   const m = text.match(NUMBERED_H3)
   const [num, label] = m ? [m[1], m[2]] : [null, text]
   return (
-    <div className="mb-4 mt-8 flex items-center gap-3 border-t border-border pt-5 first:mt-0 first:border-t-0 first:pt-0">
+    <div className="mb-4 mt-8 flex items-center gap-3 border-t border-border pt-5 [&:first-child]:mt-0 [&:first-child]:border-t-0 [&:first-child]:pt-0">
       {num && (
         <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-foreground text-[10px] font-bold text-background">
           {num}
@@ -195,17 +194,18 @@ function SectionHeader({ children }: { children: ReactNode }) {
 }
 
 // ─── smart table cell ─────────────────────────────────────────────────────────
+// align="right" comes from mdast-util-to-hast properties.align (not style.textAlign)
 
-function SmartCell({ children, style }: { children: ReactNode; style?: CSSProperties }) {
+function SmartCell({ children, align }: { children: ReactNode; align?: string }) {
   const text = childText(children).trim()
-  const isRightAligned = style?.textAlign === 'right'
+  const isRightAligned = align === 'right'
 
-  // Right-aligned single digit 0–3 → score dots (score column only)
+  // Right-aligned single digit 0–3 → score dots (score column)
   if (isRightAligned && /^[0-3]$/.test(text)) {
-    return <td className="px-3 py-2.5 text-right"><ScoreDots score={Number(text)} /></td>
+    return <td className="px-3 py-2.5 text-right">{<ScoreDots score={Number(text)} />}</td>
   }
 
-  // Fraction x/3 → coloured fraction (Score-to-Action table)
+  // Fraction x/3 → coloured fraction text (Score-to-Action Mapping table)
   if (/^[0-3]\/3$/.test(text)) {
     const n = Number(text[0])
     return (
@@ -223,17 +223,17 @@ function SmartCell({ children, style }: { children: ReactNode; style?: CSSProper
   const chip = <StatusChip text={text} />
   if (chip) return <td className="px-3 py-2.5">{chip}</td>
 
-  // Standalone risk level word → badge only
+  // Standalone risk level (entire cell is just HIGH / MEDIUM / LOW)
   if (/^(LOW[–\-]MEDIUM|HIGH|MEDIUM|LOW)$/i.test(text)) {
     return <td className="px-3 py-2.5"><RiskBadge token={normaliseRisk(text)} /></td>
   }
 
-  // Risk level + separator → badge + remainder text
+  // Risk level + separator → badge + remainder
   const riskSplit = splitRisk(text)
   if (riskSplit) {
     const [token, rest] = riskSplit
     return (
-      <td className="px-3 py-2.5">
+      <td className="px-3 py-2.5 align-top">
         <div className="flex flex-wrap items-baseline gap-1.5">
           <RiskBadge token={token} />
           <span className="text-xs leading-relaxed text-muted-foreground">{rest}</span>
@@ -242,7 +242,7 @@ function SmartCell({ children, style }: { children: ReactNode; style?: CSSProper
     )
   }
 
-  // Left-aligned single digit (Priority column, # column) → numbered circle
+  // Left-aligned single digit (Priority, # columns) → numbered circle
   if (!isRightAligned && /^[1-9]$/.test(text)) {
     return (
       <td className="px-3 py-2.5">
@@ -253,9 +253,9 @@ function SmartCell({ children, style }: { children: ReactNode; style?: CSSProper
     )
   }
 
-  // Default — pass children through preserving <strong>, <em>, <a>
+  // Default — pass children through preserving all inline markup
   return (
-    <td className="px-3 py-2.5 align-top text-xs leading-relaxed text-muted-foreground" style={style}>
+    <td className="px-3 py-2.5 align-top text-xs leading-relaxed text-muted-foreground">
       {children}
     </td>
   )
@@ -264,7 +264,7 @@ function SmartCell({ children, style }: { children: ReactNode; style?: CSSProper
 // ─── components map ───────────────────────────────────────────────────────────
 
 const components: Components = {
-  // Suppress duplicate title (page header already shows it)
+  // Suppress duplicate title
   h2: () => null,
 
   h3: ({ children }) => <SectionHeader>{children}</SectionHeader>,
@@ -278,25 +278,26 @@ const components: Components = {
     </div>
   ),
 
+  // Table wrapper — scrollable card; tbody/tr/thead use default react-markdown rendering
   table: ({ children }) => (
     <div className="my-4 overflow-x-auto rounded-lg border border-border">
-      <table className="w-full text-xs">{children}</table>
+      <table className="w-full divide-y divide-border text-xs [&_tbody_tr:hover]:bg-muted/20 [&_tbody_tr]:border-b [&_tbody_tr]:border-border/60 [&_thead]:bg-muted/60">
+        {children}
+      </table>
     </div>
   ),
-  thead: ({ children }) => <thead className="border-b border-border bg-muted/60">{children}</thead>,
-  tbody: ({ children }) => <tbody className="divide-y divide-border/60">{children}</tbody>,
+
   th: ({ children }) => (
     <th className="px-3 py-2 text-left text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
       {children}
     </th>
   ),
-  tr: ({ children }) => (
-    <tr className="transition-colors hover:bg-muted/25">
-      {children}
-    </tr>
-  ),
+
+  // align comes through as an HTML attribute from mdast-util-to-hast properties.align
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  td: ({ children, style }: any) => <SmartCell style={style}>{children}</SmartCell>,
+  td: ({ children, ...rest }: any) => (
+    <SmartCell align={rest.align}>{children}</SmartCell>
+  ),
 
   strong: ({ children }) => {
     const text = childText(children)
@@ -311,14 +312,11 @@ const components: Components = {
   p: ({ children }) => {
     const text = childText(children)
 
-    // TOTAL: N/36 paragraph → score summary bar
     if (SCORE_SUMMARY_RE.test(text)) return <ScoreSummaryBar>{children}</ScoreSummaryBar>
 
-    // Month N–N — Phase: items... → roadmap timeline card
     const rm = text.match(ROADMAP_RE)
     if (rm) return <RoadmapCard range={`Month ${rm[1]}`} phase={rm[2].trim()} body={rm[3]} />
 
-    // Long paragraph containing a risk band phrase → verdict callout
     if (text.length > 80 && BAND_PATTERN.test(text)) {
       const m = text.match(BAND_PATTERN)!
       const band = m[1] as keyof typeof RISK_CONFIG
