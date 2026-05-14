@@ -3,27 +3,8 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { ArrowLeft, BarChart2, ClipboardList, TrendingUp } from 'lucide-react'
 import { REPORT_CONTENT } from '../data/reportContent'
-
-const riskBandStyles: Record<string, string> = {
-  RESILIENT: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300',
-  'MODERATE RISK': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
-  'HIGH RISK': 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300',
-  CRITICAL: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
-}
-
-const reportMeta: Record<string, { score: string | null; riskBand: string | null }> = {
-  'dfva-b-des': { score: '17 / 36', riskBand: 'HIGH RISK' },
-  'dfva-market-b-des': { score: null, riskBand: null },
-  'dfva-mc-is': { score: '18 / 36', riskBand: 'HIGH RISK' },
-  'dfva-market-mc-is': { score: null, riskBand: null },
-  'dfva-recommend-mc-is': { score: null, riskBand: null },
-  'dfva-b-sci': { score: '23 / 36', riskBand: 'MODERATE RISK' },
-  'dfva-market-b-sci': { score: null, riskBand: null },
-  'dfva-recommend-b-sci': { score: null, riskBand: null },
-  'dfva-mc-scibit': { score: '24 / 36', riskBand: 'MODERATE RISK' },
-  'dfva-market-mc-scibit': { score: null, riskBand: null },
-  'dfva-recommend-mc-scibit': { score: null, riskBand: null },
-}
+import { getProgramBySlug } from '../data/programData'
+import { ScoreArc, DimensionRadar, ThresholdPanel, RISK_CONFIG } from '../components/dfva'
 
 const NAV_TABS = [
   { type: 'assessment' as const, label: 'Assessment', icon: BarChart2 },
@@ -48,10 +29,7 @@ export default function ReportDetailPage() {
         <p className="mb-8 text-muted-foreground">
           No report exists for slug <code>{reportSlug}</code>.
         </p>
-        <Link
-          to="/reports"
-          className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
-        >
+        <Link to="/reports" className="inline-flex items-center gap-2 text-sm text-primary hover:underline">
           <ArrowLeft className="h-4 w-4" />
           Back to reports
         </Link>
@@ -59,7 +37,6 @@ export default function ReportDetailPage() {
     )
   }
 
-  const meta = reportSlug ? reportMeta[reportSlug] : null
   const { code, type: currentType } = parseSlug(reportSlug!)
   const slugsByType = {
     assessment: 'dfva-' + code,
@@ -67,61 +44,72 @@ export default function ReportDetailPage() {
     recommend: 'dfva-recommend-' + code,
   }
 
+  const program = getProgramBySlug(reportSlug!)
+  const cfg = program ? RISK_CONFIG[program.riskBand] : null
+  const coreDims = program?.dimensions.filter((d) => !d.label.includes('bonus')) ?? []
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
-      <div className="mb-8">
-        <Link
-          to="/reports"
-          className="mb-6 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          All reports
-        </Link>
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">{report.title}</h1>
-            <p className="mt-1 text-muted-foreground">{report.institution}</p>
-          </div>
-          {meta?.riskBand && (
-            <div className="flex items-center gap-2">
-              <span
-                className={`rounded-full px-3 py-1 text-sm font-semibold ${riskBandStyles[meta.riskBand]}`}
-              >
-                {meta.riskBand}
-              </span>
-              {meta.score && (
-                <span className="text-sm font-medium text-muted-foreground">{meta.score}</span>
-              )}
-            </div>
-          )}
-        </div>
+      <Link
+        to="/reports"
+        className="mb-6 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        All reports
+      </Link>
 
-        {/* Report family navigation */}
-        <div className="mt-5 flex flex-wrap items-center gap-2">
-          {NAV_TABS.map(tab => {
-            const slug = slugsByType[tab.type]
-            if (!(slug in REPORT_CONTENT)) return null
-            const isActive = tab.type === currentType
-            return (
-              <Link
-                key={tab.type}
-                to={'/reports/' + slug}
-                className={[
-                  'inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-medium transition-colors',
-                  isActive
-                    ? 'border-primary bg-primary text-primary-foreground'
-                    : 'border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground',
-                ].join(' ')}
-              >
-                <tab.icon className="h-3.5 w-3.5" />
-                {tab.label}
-              </Link>
-            )
-          })}
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="min-w-0">
+          <h1 className="text-2xl font-bold text-foreground">{report.title}</h1>
+          <p className="mt-1 text-muted-foreground">{report.institution}</p>
         </div>
+        {program && (
+          <ScoreArc score={program.score} max={program.maxScore} band={program.riskBand} size={110} />
+        )}
       </div>
 
-      <div className="rounded-xl border border-border bg-card p-8">
+      {/* Tab navigation */}
+      <div className="mt-5 flex flex-wrap items-center gap-2">
+        {NAV_TABS.map((tab) => {
+          const slug = slugsByType[tab.type]
+          if (!(slug in REPORT_CONTENT)) return null
+          const isActive = tab.type === currentType
+          return (
+            <Link
+              key={tab.type}
+              to={'/reports/' + slug}
+              className={[
+                'inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-medium transition-colors',
+                isActive
+                  ? 'border-primary bg-primary text-primary-foreground'
+                  : 'border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground',
+              ].join(' ')}
+            >
+              <tab.icon className="h-3.5 w-3.5" />
+              {tab.label}
+            </Link>
+          )
+        })}
+      </div>
+
+      {/* Visualization banner — assessment tab only */}
+      {currentType === 'assessment' && program && cfg && coreDims.length > 0 && (
+        <div
+          className="mt-6 grid grid-cols-1 gap-6 overflow-hidden rounded-xl border p-6 sm:grid-cols-[auto_1fr]"
+          style={{ borderColor: cfg.color + '40', background: cfg.track + 'cc' }}
+        >
+          <DimensionRadar dimensions={coreDims} band={program.riskBand} size={220} />
+          <div className="flex flex-col justify-center">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              Threshold Questions
+            </p>
+            <ThresholdPanel thresholds={program.thresholds} />
+          </div>
+        </div>
+      )}
+
+      {/* Markdown content */}
+      <div className="mt-6 rounded-xl border border-border bg-card p-8">
         <div className="prose prose-sm dark:prose-invert max-w-none prose-table:text-xs prose-th:font-semibold prose-td:align-top">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{report.markdown}</ReactMarkdown>
         </div>

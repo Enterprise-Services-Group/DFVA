@@ -94,3 +94,55 @@ At the top or bottom of each report, include:
 - Assessment date (ISO format)
 - Source URL(s)
 - Prompt version: DFVA-COPILOT-SKILL-v1
+
+## COMPASS UI Data Block
+
+After every full DFVA assessment, append a **COMPASS UI Data Block** as a fenced TypeScript code block. This is the exact object to paste into `compass-static/src/data/programData.ts` to make the report appear in the COMPASS interface with correct visualisations.
+
+Rules:
+- `riskBand` must be one of: `'RESILIENT'` | `'MODERATE RISK'` | `'HIGH RISK'` | `'CRITICAL'`
+- Include all 10 core dimensions plus bonus (`label: 'Irreplaceability (bonus)'`)
+- `assessmentSlug` format: `dfva-[code]` (e.g. `dfva-b-des`)
+- `marketSlug` format: `dfva-market-[code]`
+- `recommendSlug` format: `dfva-recommend-[code]` — only include when an improvement plan exists
+- Threshold values are strictly `'YES'` | `'NO'` | `'UNCERTAIN'`
+
+### Template
+
+```typescript
+// Paste into PROGRAMS array in compass-static/src/data/programData.ts
+{
+  program: '[Full program name]',
+  institution: '[Institution name]',
+  level: '[e.g. Bachelor · 3 years]',
+  date: '[YYYY-MM-DD]',
+  score: 0,
+  maxScore: 36,
+  riskBand: '[RESILIENT | MODERATE RISK | HIGH RISK | CRITICAL]',
+  thresholds: { q1: '[YES|NO|UNCERTAIN]', q2: '[YES|NO|UNCERTAIN]', q3: '[YES|NO|UNCERTAIN]' },
+  dimensions: [
+    { label: 'Automation Exposure',      score: 0, max: 3 },
+    { label: 'Systems Thinking',         score: 0, max: 3 },
+    { label: 'Technical Depth',          score: 0, max: 3 },
+    { label: 'Decision-Making',          score: 0, max: 3 },
+    { label: 'AI Literacy',              score: 0, max: 3 },
+    { label: 'Domain Depth',             score: 0, max: 3 },
+    { label: 'Research Rigour',          score: 0, max: 3 },
+    { label: 'Human & Relational',       score: 0, max: 3 },
+    { label: 'Curriculum Currency',      score: 0, max: 3 },
+    { label: 'Outcome Evidence',         score: 0, max: 3 },
+    { label: 'Irreplaceability (bonus)', score: 0, max: 3 },
+  ],
+  assessmentSlug: 'dfva-[code]',
+  marketSlug: 'dfva-market-[code]',
+  // recommendSlug: 'dfva-recommend-[code]',
+},
+```
+
+### Visual Style Reference
+
+All COMPASS visualisations follow `.interface-design/system.md`:
+- Risk bands rendered via `RISK_CONFIG` in `src/components/dfva/ScoreArc.tsx`
+- Dimension scores as segmented step bars (`DimensionSteps`) and radar chart (`DimensionRadar`)
+- Threshold answers as coloured badges: YES = red (risk signal), NO = green, UNCERTAIN = amber
+- Do not use generic Tailwind colour utilities for risk-band elements — always use RISK_CONFIG
