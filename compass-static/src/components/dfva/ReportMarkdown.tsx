@@ -512,9 +512,14 @@ const components: Components = {
       )
     }
 
+    // Signal N / Theme N market intelligence items
+    const sigThemeMatch = text.match(/^((?:Signal|Theme) \d+ — [^:!?.\n]+)[:.!?]\s*([\s\S]*)$/)
+    if (sigThemeMatch) {
+      return <StructuredCard title={sigThemeMatch[1].trim()} body={sigThemeMatch[2].trim()} />
+    }
+
     // Dense "Title: item · item · item" paragraph (measurement plan indicators)
-    if (text.includes('·')) {
-      const firstColon = text.indexOf(': ')
+    if (text.includes('·')) {      const firstColon = text.indexOf(': ')
       if (firstColon > 0 && firstColon < 80) {
         const title = text.slice(0, firstColon).trim()
         const items = text.slice(firstColon + 2).split(/\s*·\s*/).map(s => s.replace(/\.$/, '').trim()).filter(Boolean)
@@ -537,10 +542,22 @@ const components: Components = {
     }
 
     // Dense "Title: intro. Section: items; items. Dimensions: D4, D5." paragraph
-    if (SECTION_BOUNDARY_RE.test(text)) {
+    if (SECTION_BOUNDARY_RE.test(text) || /^Q[1-3]: /.test(text)) {
       const firstColon = text.indexOf(': ')
       if (firstColon > 0 && firstColon < 100) {
         return <StructuredCard title={text.slice(0, firstColon)} body={text.slice(firstColon + 2)} />
+      }
+    }
+
+    // "**Short title:** body text" — bold label as uppercase block header, body flows below
+    {
+      const firstColon = text.indexOf(': ')
+      if (firstColon > 2 && firstColon < 50 && text.length > firstColon + 50 && !text.slice(0, firstColon).includes('|')) {
+        return (
+          <div className="my-3 text-[13px] leading-relaxed text-muted-foreground [&>strong:first-child]:mb-0.5 [&>strong:first-child]:block [&>strong:first-child]:text-[11px] [&>strong:first-child]:uppercase [&>strong:first-child]:tracking-widest [&>strong:first-child]:text-foreground">
+            {children}
+          </div>
+        )
       }
     }
 
