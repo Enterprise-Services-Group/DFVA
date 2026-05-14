@@ -235,13 +235,15 @@ function SectionItems({ content }: { content: string }) {
 
 function StructuredCard({ title, body }: { title: string; body: string }) {
   const { intro, sections } = parseBodySections(body)
+  const isSubtitle = intro.length > 0 && intro.length < 120 && sections.length > 0
   return (
     <div className="mb-4 overflow-hidden rounded-lg border border-border bg-card shadow-sm">
       <div className="border-b border-border bg-muted/50 px-4 py-2.5">
         <span className="text-[11px] font-semibold uppercase tracking-widest text-foreground">{title.replace(/:$/, '')}</span>
+        {isSubtitle && <p className="mt-0.5 text-[10px] leading-snug text-muted-foreground/80 italic">{intro}</p>}
       </div>
       <div className="space-y-3 px-4 py-3">
-        {intro && <SectionItems content={intro} />}
+        {!isSubtitle && intro && <SectionItems content={intro} />}
         {sections.map(({ label, content }) => (
           <div key={label}>
             <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/70">{label}</p>
@@ -440,14 +442,7 @@ const components: Components = {
 
   h3: ({ children }) => <SectionHeader>{children}</SectionHeader>,
 
-  blockquote: ({ children }) => (
-    <div
-      className="mb-4 rounded-r-lg border-l-4 px-4 py-3 text-xs leading-relaxed text-muted-foreground"
-      style={{ borderColor: '#d97706', background: '#fffbeb' }}
-    >
-      {children}
-    </div>
-  ),
+  blockquote: ({ children }) => <>{children}</>,
 
   // Table wrapper — elevated card with refined borders
   table: ({ children }) => (
@@ -541,8 +536,16 @@ const components: Components = {
       }
     }
 
+    // Q1/Q2/Q3 threshold questions — full question as heading, answer+rationale as body
+    if (/^Q[1-3]: /.test(text)) {
+      const qMark = text.indexOf('?')
+      if (qMark > 0) {
+        return <StructuredCard title={text.slice(0, qMark + 1)} body={text.slice(qMark + 1).trim()} />
+      }
+    }
+
     // Dense "Title: intro. Section: items; items. Dimensions: D4, D5." paragraph
-    if (SECTION_BOUNDARY_RE.test(text) || /^Q[1-3]: /.test(text)) {
+    if (SECTION_BOUNDARY_RE.test(text)) {
       const firstColon = text.indexOf(': ')
       if (firstColon > 0 && firstColon < 100) {
         return <StructuredCard title={text.slice(0, firstColon)} body={text.slice(firstColon + 2)} />
