@@ -100,30 +100,61 @@ Source URL: [handbook URL]
 Prompt Version: DFVA-COPILOT-PROMPT-v1 / DFVA-COPILOT-MARKET-v1 / DFVA-COPILOT-RECOMMENDER-v1
 ```
 
-### 5b — Add report content entries
+### 5b — Create per-program report content file and update imports
 
-Add three new entries to BOTH of these files:
-- `compass-static/src/data/reportContent.ts`
-- `compass/app/src/compass/reportContent.ts`
+**Step 1: Create a new per-program content file.**
 
-Entry shape (repeat for all three slugs):
+Create `compass-static/src/data/reportContent.[slug].ts` following this exact pattern (reference: `reportContent.mc-scibit.ts`):
+
 ```typescript
-"dfva-[slug]": {
-  title: "[Program Name] — DFVA Assessment",
-  institution: "[Institution]",
-  markdown: `[full Stage 2 content, converted: no fenced code blocks inside template literal]`,
-},
+export const REPORT_CONTENT_[SLUG_UPPER]: Record<
+  string,
+  { title: string; institution: string; markdown: string }
+> = {
+  "dfva-[slug]": {
+    title: "[Program Name] — DFVA Assessment",
+    institution: "[Institution]",
+    markdown: `[Stage 2 content]`,
+  },
+  "dfva-market-[slug]": {
+    title: "[Program Name] — Market Intelligence",
+    institution: "[Institution]",
+    markdown: `[Stage 3 content]`,
+  },
+  "dfva-recommend-[slug]": {
+    title: "[Program Name] — Improvement Plan",
+    institution: "[Institution]",
+    markdown: `[Stage 4 content]`,
+  },
+}
 ```
 
-Insert before the `"dfva-market-b-des"` entry. Use Python via terminal if backtick characters in the content cause tool conflicts.
+Where `[SLUG_UPPER]` is the slug in SCREAMING_SNAKE_CASE (e.g., `mc-datasc` → `MC_DATASC`).
 
-**Critical:** Template literal strings must NOT contain backtick characters. Convert any fenced code blocks (``` blocks) to plain bold-text paragraph format before embedding.
+**Critical rules for template literal content:**
+- NO backtick characters inside the template literal string
+- Convert any fenced code blocks to plain bold-text paragraph format
+- If the edit tool fails due to backtick conflicts, use Python via the execute tool to write the file
 
-### 5c — Add PROGRAMS card entry
+**Step 2: Add import and spread to `compass-static/src/data/reportContent.ts`.**
 
-Add a new entry to the `PROGRAMS` array in BOTH of these files:
-- `compass-static/src/pages/ReportsPage.tsx`
-- `compass/app/src/compass/ReportsPage.tsx`
+Add at the top of the file:
+```typescript
+import { REPORT_CONTENT_[SLUG_UPPER] } from './reportContent.[slug]'
+```
+
+Add inside the REPORT_CONTENT object:
+```typescript
+...REPORT_CONTENT_[SLUG_UPPER],
+```
+
+**Step 3: Add entries to `compass/app/src/compass/reportContent.ts` (inline).**
+
+Add three inline entries (assessment, market, recommend) to the existing Record in `compass/app/src/compass/reportContent.ts`. Use double quotes for keys.
+
+### 5c — Add PROGRAMS entry to programData.ts and ReportsPage.tsx
+
+**compass-static:** Add a new entry to the `PROGRAMS` array in `compass-static/src/data/programData.ts`. Insert before the closing `]` of the array. Uses single quotes:
 
 ```typescript
 {
@@ -131,7 +162,7 @@ Add a new entry to the `PROGRAMS` array in BOTH of these files:
   institution: '[Institution]',
   level: '[Level · Duration]',
   date: '[ISO date]',
-  score: [total score],
+  score: [total],
   maxScore: 36,
   riskBand: '[RESILIENT | MODERATE RISK | HIGH RISK | CRITICAL]',
   thresholds: { q1: '[YES|NO|UNCERTAIN]', q2: '[YES|NO|UNCERTAIN]', q3: '[YES|NO|UNCERTAIN]' },
@@ -154,7 +185,7 @@ Add a new entry to the `PROGRAMS` array in BOTH of these files:
 },
 ```
 
-Note: `compass/app/src/compass/ReportsPage.tsx` uses double quotes for string values; `compass-static/src/pages/ReportsPage.tsx` uses single quotes.
+**compass/app:** Add the same entry to the `PROGRAMS` array in `compass/app/src/compass/ReportsPage.tsx`. Uses double quotes for string values.
 
 ### 5d — Verify
 

@@ -122,45 +122,62 @@ Create three files:
 - `reports/dfva-market-[slug].md` — full Stage 3 output
 - `reports/dfva-recommend-[slug].md` — full Stage 4 output
 
-#### 5b — Add entries to reportContent.ts
+#### 5b — Create per-program report content file and update imports
 
-Add three new entries to BOTH files:
-- `compass-static/src/data/reportContent.ts`
-- `compass/app/src/compass/reportContent.ts`
+**Step 1: Create a new per-program content file.**
 
-Entry shape:
+Create `compass-static/src/data/reportContent.[slug].ts` following this exact pattern (reference: `reportContent.mc-scibit.ts`):
+
 ```typescript
-"dfva-[slug]": {
-  title: "[Program Name] — DFVA Assessment",
-  institution: "[Institution]",
-  markdown: `[content]`,
-},
+export const REPORT_CONTENT_[SLUG_UPPER]: Record<
+  string,
+  { title: string; institution: string; markdown: string }
+> = {
+  "dfva-[slug]": {
+    title: "[Program Name] — DFVA Assessment",
+    institution: "[Institution]",
+    markdown: `[Stage 2 content]`,
+  },
+  "dfva-market-[slug]": {
+    title: "[Program Name] — Market Intelligence",
+    institution: "[Institution]",
+    markdown: `[Stage 3 content]`,
+  },
+  "dfva-recommend-[slug]": {
+    title: "[Program Name] — Improvement Plan",
+    institution: "[Institution]",
+    markdown: `[Stage 4 content]`,
+  },
+}
 ```
 
-Insert before the `"dfva-market-b-des"` key.
+Where `[SLUG_UPPER]` is the slug in SCREAMING_SNAKE_CASE (e.g., `mc-datasc` → `MC_DATASC`).
 
 **Critical rules for template literal content:**
 - NO backtick characters inside the template literal string
-- Convert any fenced code blocks (``` blocks) to plain bold-text paragraph format
-- If the edit tool fails due to backtick conflicts, use Python via the execute tool to insert the content
+- Convert any fenced code blocks to plain bold-text paragraph format
+- If the edit tool fails due to backtick conflicts, use Python via the execute tool to write the file
 
-Python pattern for backtick-safe insertion:
-```python
-content = open(filepath, 'r', encoding='utf-8').read()
-anchor = 'redesign them.\n`,\n  },\n\n  "dfva-market-b-des": {'
-replacement = 'redesign them.\n`,\n  },\n\n' + NEW_ENTRIES + '\n  "dfva-market-b-des": {'
-open(filepath, 'w', encoding='utf-8').write(content.replace(anchor, replacement, 1))
+**Step 2: Add import and spread to `compass-static/src/data/reportContent.ts`.**
+
+Add at the top of the file:
+```typescript
+import { REPORT_CONTENT_[SLUG_UPPER] } from './reportContent.[slug]'
 ```
 
-**Note:** If a previous program used the same "redesign them." ending, the anchor will be the LAST occurrence before `"dfva-market-b-des"`. Check with `content.rfind(anchor)` if `.replace(..., 1)` hits the wrong instance.
+Add inside the REPORT_CONTENT object:
+```typescript
+...REPORT_CONTENT_[SLUG_UPPER],
+```
 
-#### 5c — Add PROGRAMS entry to ReportsPage.tsx
+**Step 3: Add entries to `compass/app/src/compass/reportContent.ts` (inline).**
 
-Add a new entry to the `PROGRAMS` array in BOTH files:
-- `compass-static/src/pages/ReportsPage.tsx` — uses single quotes for string values
-- `compass/app/src/compass/ReportsPage.tsx` — uses double quotes for string values
+Add three inline entries (assessment, market, recommend) to the existing Record in `compass/app/src/compass/reportContent.ts`. Use double quotes for keys. Insert before the closing `}` of the Record object.
 
-Entry:
+#### 5c — Add PROGRAMS entry to programData.ts and ReportsPage.tsx
+
+**compass-static:** Add a new entry to the `PROGRAMS` array in `compass-static/src/data/programData.ts`. Insert before the closing `]` of the array. Uses single quotes:
+
 ```typescript
 {
   program: '[Program Name]',
@@ -190,7 +207,7 @@ Entry:
 },
 ```
 
-Insert after the last existing entry in the `PROGRAMS` array, before the closing `]`.
+**compass/app:** Add the same entry to the `PROGRAMS` array in `compass/app/src/compass/ReportsPage.tsx`. Uses double quotes for string values.
 
 #### 5d — Build verification
 

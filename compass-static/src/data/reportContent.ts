@@ -1,10 +1,14 @@
 import { REPORT_CONTENT_MC_SCIBIT } from './reportContent.mc-scibit';
+import { REPORT_CONTENT_MC_SCIEAR } from './reportContent.mc-sciear';
+import { REPORT_CONTENT_MC_SCIEPI } from './reportContent.mc-sciepi';
 
 export const REPORT_CONTENT: Record<
   string,
   { title: string; institution: string; markdown: string }
 > = {
   ...REPORT_CONTENT_MC_SCIBIT,
+  ...REPORT_CONTENT_MC_SCIEAR,
+  ...REPORT_CONTENT_MC_SCIEPI,
   "dfva-b-des": {
     title: "Bachelor of Design (B-DES) — DFVA Assessment",
     institution: "University of Melbourne",

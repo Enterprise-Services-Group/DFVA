@@ -1,0 +1,14 @@
+{
+  "name": "dfva-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "DFVA batch pipeline validation and tooling",
+  "scripts": {
+    "validate": "npx tsx validate-reports.ts",
+    "validate:verbose": "npx tsx validate-reports.ts --verbose"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}

@@ -1,0 +1,107 @@
+[
+  {
+    "code": "MC-SCIEAR",
+    "name": "Master of Science (Earth Sciences)",
+    "slug": "mc-sciear",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/mc-sciear",
+    "notes": ""
+  },
+  {
+    "code": "MC-SCIEPI",
+    "name": "Master of Science (Epidemiology)",
+    "slug": "mc-sciepi",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/mc-sciepi",
+    "notes": ""
+  },
+  {
+    "code": "MC-SCIPHY",
+    "name": "Master of Science (Physics)",
+    "slug": "mc-sciphy",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/mc-sciphy",
+    "notes": ""
+  },
+  {
+    "code": "MC-SCIBIO",
+    "name": "Master of Science (BioSciences)",
+    "slug": "mc-scibio",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/mc-scibio",
+    "notes": ""
+  },
+  {
+    "code": "MC-SCICHE",
+    "name": "Master of Science (Chemistry)",
+    "slug": "mc-sciche",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/mc-sciche",
+    "notes": ""
+  },
+  {
+    "code": "MC-SCIBIF",
+    "name": "Master of Science (Bioinformatics)",
+    "slug": "mc-scibif",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/mc-scibif",
+    "notes": ""
+  },
+  {
+    "code": "MC-ENVSC",
+    "name": "Master of Environmental Science",
+    "slug": "mc-envsc",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/mc-envsc",
+    "notes": ""
+  },
+  {
+    "code": "MC-CLIMSCI",
+    "name": "Master of Climate Science",
+    "slug": "mc-climsci",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/mc-climsci",
+    "notes": ""
+  },
+  {
+    "code": "MC-CS",
+    "name": "Master of Computer Science",
+    "slug": "mc-cs",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/mc-cs",
+    "notes": ""
+  },
+  {
+    "code": "MC-DATASC",
+    "name": "Master of Data Science",
+    "slug": "mc-datasc",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/mc-datasc",
+    "notes": ""
+  },
+  {
+    "code": "MC-BMEDSC",
+    "name": "Master of Biomedical Science",
+    "slug": "mc-bmedsc",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/mc-bmedsc",
+    "notes": ""
+  },
+  {
+    "code": "MC-ACTSC",
+    "name": "Master of Actuarial Science",
+    "slug": "mc-actsc",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/mc-actsc",
+    "notes": "Covers MC-ACTSCEN (Enhanced) and MC-ACTSCEX (Extended) variants — same curriculum, different durations"
+  },
+  {
+    "code": "MC-GENCOUN",
+    "name": "Master of Genetic Counselling",
+    "slug": "mc-gencoun",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/mc-gencoun",
+    "notes": "Verify if Faculty of Science or MDHS"
+  },
+  {
+    "code": "439FS",
+    "name": "Master of Food Science",
+    "slug": "439fs",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/439fs",
+    "notes": ""
+  },
+  {
+    "code": "MC-NURSC",
+    "name": "Master of Nursing Science",
+    "slug": "mc-nursc",
+    "handbookUrl": "https://handbook.unimelb.edu.au/2026/courses/mc-nursc",
+    "notes": "Verify if Faculty of Science or MDHS"
+  }
+]
